@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
+    using System.Runtime.InteropServices;
     using System.Web.Script.Serialization;
 
     public static class LinqPadExtensions
@@ -22,7 +23,7 @@
 
         public static object DumpReflect<T>(this T obj, int depth)
         {
-            return Reflect(obj, depth).Dump(depth+2);
+            return Reflect(obj, depth).Dump(depth + 2);
         }
 
         public static object DumpReflect<T>(this T obj, string description)
@@ -37,15 +38,15 @@
 
         public static object DumpReflect<T>(this T obj, string description, int depth)
         {
-            return Reflect(obj, depth).Dump(description, depth+2);
+            return Reflect(obj, depth).Dump(description, depth + 2);
         }
 
-        public static IEnumerable<object> Reflect<T>(this T obj, int depth = 0)
+        public static object Reflect<T>(this T obj, int depth = 0)
         {
             return ReflectOnType(obj, depth, 0);
         }
 
-        static IEnumerable<object> ReflectOnType(object obj, int depth, int currentDepth)
+        static object ReflectOnType(object obj, int depth, int currentDepth)
         {
             PropertyInfo[] properties = obj.GetType().GetProperties((BindingFlags)~0);
 
@@ -54,6 +55,7 @@
                 {
                     new
                     {
+                        Accessibility = (object)null,
                         Name = obj.GetType().ToString(),
                         Value = (object)obj.ToString()
                     }
@@ -65,6 +67,7 @@
                          where !isIndexed && getSupported
                          select new
                          {
+                             Accessibility = getSupported ? GetAccessibility(p.GetMethod) : (object)"",
                              p.Name,
                              Value =
                                 getSupported
@@ -88,12 +91,13 @@
 
                          select new
                          {
+                             Accessibility = GetAccessibility(m),
                              Name = m.Name + "()",
                              Value = result
                          }
                      )
                      .OrderBy(a => a.Name)
-                     .ToList();
+                     .Skip(0);
         }
 
         public static string DumpJson<T>(this T obj)
@@ -161,6 +165,33 @@
             {
                 return ex;
             }
+        }
+
+        static object GetAccessibility(MethodBase method)
+        {
+            var accessibility =
+                method.IsPublic
+                    ? "public"
+                    : method.IsPrivate
+                        ? "private"
+                        : method.IsVirtual
+                            ? "virtual"
+                                : method.IsAbstract
+                                    ? "abstract"
+                                    : method.IsConstructor
+                                        ? "ctor"
+                                        : method.IsAssembly
+                                            ? "internal"
+                                            : method.IsFamily
+                                                ? "protected"
+                                                : method.IsFamilyOrAssembly
+                                                    ? "protected internal"
+                                                    : "--";
+            accessibility += method.IsStatic
+                ? " static"
+                : "";
+
+            return Util.RawHtml(@"<span style='color: Blue'>" + accessibility + @"</span>");
         }
     }
 }
