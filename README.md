@@ -3,6 +3,8 @@ LINQPadUtils
 
 A small collection of extension methods which I find useful for LINQPad on occasion. They display a little more information than the `Dump()` counterpart. Use with caution on large data sets.
 
+[Download the compiled binary here](https://github.com/vincpa/LINQPadUtils/releases)
+
 #### `DumpReflect()`
 
 In addition to the standard `Dump()` output, this will also obtain values by calling methods which do not contain any parameters. Private, internal, protected and private members are also displayed. There's also an option to specify the reflected depth which works a little differently. The main difference being that primitive types are also reflected rather than simply being displayed.
