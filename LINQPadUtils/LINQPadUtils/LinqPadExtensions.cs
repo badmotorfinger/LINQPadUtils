@@ -10,28 +10,44 @@
     {
         const string IndentString = "  ";
 
-        #region Public Methods and Operators
-
-        public static IEnumerable<object> DumpReflect<T>(this T obj)
+        public static object DumpReflect<T>(this T obj)
         {
-            return DumpReflect(obj, null, false);
+            return Reflect(obj).Dump();
         }
 
-        public static IEnumerable<object> DumpReflect<T>(this T obj, string description)
+        public static object DumpReflect<T>(this T obj, bool toDataGrid)
         {
-            return DumpReflect(obj, description, false);
+            return Reflect(obj).Dump(toDataGrid);
         }
 
-        public static IEnumerable<object> DumpReflect<T>(this T obj, string description, bool toDataGrid)
+        public static object DumpReflect<T>(this T obj, int depth)
         {
-            var result = ReflectOnType(obj);
-
-            return result.Dump(description, toDataGrid);
+            return Reflect(obj, depth).Dump(depth+2);
         }
 
-        static IEnumerable<object> ReflectOnType(object obj)
+        public static object DumpReflect<T>(this T obj, string description)
         {
-            PropertyInfo[] properties = obj.GetType().GetProperties();
+            return Reflect(obj).Dump(description);
+        }
+
+        public static object DumpReflect<T>(this T obj, string description, bool toDataGrid)
+        {
+            return Reflect(obj).Dump();
+        }
+
+        public static object DumpReflect<T>(this T obj, string description, int depth)
+        {
+            return Reflect(obj, depth).Dump(description, depth+2);
+        }
+
+        public static IEnumerable<object> Reflect<T>(this T obj, int depth = 0)
+        {
+            return ReflectOnType(obj, depth, 0);
+        }
+
+        static IEnumerable<object> ReflectOnType(object obj, int depth, int currentDepth)
+        {
+            PropertyInfo[] properties = obj.GetType().GetProperties((BindingFlags)~0);
 
             return
                  new[]
@@ -45,15 +61,19 @@
                      .Union(
                          from p in properties
                          let isIndexed = p.GetIndexParameters().Length > 0
-                         where !isIndexed
+                         let getSupported = p.GetMethod != null
+                         where !isIndexed && getSupported
                          select new
                          {
                              p.Name,
-                             Value = p.GetValue(obj, null)
+                             Value =
+                                getSupported
+                                    ? InvokeMethod(() => p.GetValue(obj, null), depth, currentDepth)
+                                    : "<i>Get accessor not implemented.</i>"
                          }
                      )
                      .Union(
-                         from m in obj.GetType().GetMethods(~BindingFlags.NonPublic)
+                         from m in obj.GetType().GetMethods((BindingFlags)~0)
                          let isCallableMethod = m.GetParameters().Length == 0
                          let getterName = m.Name.StartsWith("get_")
                              ? m.Name.Substring(4)
@@ -61,13 +81,19 @@
                          let setterName = m.Name.StartsWith("set_")
                              ? m.Name.Substring(4)
                              : String.Empty
+
                          where isCallableMethod && !properties.Any(p => p.Name == getterName || p.Name == setterName)
+
+                         let result = InvokeMethod(() => m.Invoke(obj, null), depth, currentDepth)
+
                          select new
                          {
                              Name = m.Name + "()",
-                             Value = m.Invoke(obj, null)
+                             Value = result
                          }
-                     ); 
+                     )
+                     .OrderBy(a => a.Name)
+                     .ToList();
         }
 
         public static string DumpJson<T>(this T obj)
@@ -82,10 +108,8 @@
 
         public static string DumpJson<T>(this T obj, string description, bool toDataGrid)
         {
-            var result = ReflectOnType(obj);
-
             var json =
-                new JavaScriptSerializer().Serialize(result);
+                new JavaScriptSerializer().Serialize(obj);
 
             return FormatJson(json).Dump(description, toDataGrid);
         }
@@ -105,12 +129,38 @@
                 // When quotes are closed and there's a space, ignore it unless we are between quotes.
                 where (quotes % 2 == 0 && !Char.IsSeparator(ch)) || quotes % 2 == 1
 
-                select lineBreak ?? 
+                select lineBreak ??
                     (openChar != null && openChar.Length > 1 ? openChar : closeChar);
 
             return String.Concat(result);
         }
 
-        #endregion
+        static object InvokeMethod(Func<object> f, int depth, int currentDepth)
+        {
+            try
+            {
+                var result = f();
+
+                if (result == null)
+                {
+                    return null;
+                }
+
+                if (result.GetType().IsPrimitive || currentDepth >= depth)
+                {
+                    return result.ToString();
+                }
+
+                return ReflectOnType(result, depth, ++currentDepth);
+            }
+            catch (TargetInvocationException tex)
+            {
+                return tex.InnerException ?? tex;
+            }
+            catch (Exception ex)
+            {
+                return ex;
+            }
+        }
     }
 }
