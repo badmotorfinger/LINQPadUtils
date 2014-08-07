@@ -9,11 +9,18 @@ In addition to the standard `Dump()` output, this will also obtain values by cal
 
 All of the standard overloads of the built-in `Dump()` method are supported.
 
+![DumpReflect Screenshot](https://github.com/vincpa/LINQPadUtils/raw/master/DumpReflectScreenie.jpg)
+
 #### `DumpJson()`
 
 Displays an object graph much like the `Dump()` method, but Json formatted.
 
+![DumpJson Screenshot](https://github.com/vincpa/LINQPadUtils/raw/master/DumpJsonScreenie.jpg)
 
 #### `Reflect()`
 
 Reflects over a type and gets the values required for `DumpReflect()`. Can be used in conjunction with `Dump()`. For example, `obj.Reflect().DumpJson()` or `obj.Reflect().Dump()` which is equivalent to `DumpReflect()`.
+
+### Known issues
+
+For some types `DumpReflect().DumpJson()` will fail due to cyclic dependencies.
