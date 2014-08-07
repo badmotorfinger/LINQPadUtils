@@ -152,7 +152,9 @@
 
                 if (result.GetType().IsPrimitive || currentDepth >= depth)
                 {
-                    return result.ToString();
+                    return result.GetType().IsArray
+                        ? result
+                        : result.ToString();
                 }
 
                 return ReflectOnType(result, depth, ++currentDepth);
