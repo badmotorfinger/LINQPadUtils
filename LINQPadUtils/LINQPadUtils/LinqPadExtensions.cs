@@ -55,49 +55,49 @@
                 {
                     new
                     {
-                        Accessibility = (object)null,
-                        Name = obj.GetType().ToString(),
-                        Value = (object)obj.ToString()
+                        Accessibility = (object)String.Empty,
+                        Name = String.Empty,
+                        Value = Util.RawHtml(@"<span style='color: Green;font-weight:Bold;'>" + obj + @"</span>")
                     }
                 }
-                     .Union(
-                         from p in properties
-                         let isIndexed = p.GetIndexParameters().Length > 0
-                         let getSupported = p.GetMethod != null
-                         where !isIndexed && getSupported
-                         select new
-                         {
-                             Accessibility = getSupported ? GetAccessibility(p.GetMethod) : (object)"",
-                             p.Name,
-                             Value =
-                                getSupported
-                                    ? InvokeMethod(() => p.GetValue(obj, null), depth, currentDepth)
-                                    : "<i>Get accessor not implemented.</i>"
-                         }
-                     )
-                     .Union(
-                         from m in obj.GetType().GetMethods((BindingFlags)~0)
-                         let isCallableMethod = m.GetParameters().Length == 0
-                         let getterName = m.Name.StartsWith("get_")
-                             ? m.Name.Substring(4)
-                             : String.Empty
-                         let setterName = m.Name.StartsWith("set_")
-                             ? m.Name.Substring(4)
-                             : String.Empty
+                .Union(
+                    from p in properties
+                    let isIndexed = p.GetIndexParameters().Length > 0
+                    let getSupported = p.GetMethod != null
+                    where !isIndexed && getSupported
+                    select new
+                    {
+                        Accessibility = getSupported ? GetAccessibility(p.GetMethod) : (object)"",
+                        p.Name,
+                        Value =
+                        getSupported
+                            ? InvokeMethod(() => p.GetValue(obj, null), depth, currentDepth)
+                            : "<i>Get accessor not implemented.</i>"
+                    }
+                )
+                .Union(
+                    from m in obj.GetType().GetMethods((BindingFlags)~0)
+                    let isCallableMethod = m.GetParameters().Length == 0
+                    let getterName = m.Name.StartsWith("get_")
+                        ? m.Name.Substring(4)
+                        : String.Empty
+                    let setterName = m.Name.StartsWith("set_")
+                        ? m.Name.Substring(4)
+                        : String.Empty
 
-                         where isCallableMethod && !properties.Any(p => p.Name == getterName || p.Name == setterName)
+                    where isCallableMethod && !properties.Any(p => p.Name == getterName || p.Name == setterName)
 
-                         let result = InvokeMethod(() => m.Invoke(obj, null), depth, currentDepth)
+                    let result = InvokeMethod(() => m.Invoke(obj, null), depth, currentDepth)
 
-                         select new
-                         {
-                             Accessibility = GetAccessibility(m),
-                             Name = m.Name + "()",
-                             Value = result
-                         }
-                     )
-                     .OrderBy(a => a.Name)
-                     .Skip(0);
+                    select new
+                    {
+                        Accessibility = GetAccessibility(m),
+                        Name = m.Name + "()",
+                        Value = result
+                    }
+                )
+                .OrderBy(a => a.Name)
+                .Skip(0);
         }
 
         public static string DumpJson<T>(this T obj)
