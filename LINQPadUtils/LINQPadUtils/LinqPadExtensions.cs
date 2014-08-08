@@ -5,6 +5,7 @@
     using System.Linq;
     using System.Reflection;
     using System.Runtime.InteropServices;
+    using System.Web;
     using System.Web.Script.Serialization;
 
     public static class LinqPadExtensions
@@ -57,7 +58,7 @@
                     {
                         Accessibility = (object)String.Empty,
                         Name = String.Empty,
-                        Value = Util.RawHtml(@"<span style='color: Green;font-weight:Bold;'>" + obj + @"</span>")
+                        Value = Util.RawHtml(@"<span style='color: Green;font-weight:Bold;'>" + HttpUtility.HtmlEncode(obj) + @"</span>")
                     }
                 }
                 .Union(
