@@ -4,9 +4,10 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
+    using System.Runtime.InteropServices;
     using System.Web.Script.Serialization;
 
-    public static class LinqPadExtensions
+    public static partial class LinqPadExtensions
     {
         const string IndentString = "  ";
 
@@ -40,7 +41,7 @@
             return Reflect(obj, depth).Dump(description, depth+2);
         }
 
-        public static IEnumerable<object> Reflect<T>(this T obj, int depth = 0)
+        public static object Reflect<T>(this T obj, int depth = 0)
         {
             return ReflectOnType(obj, depth, 0);
         }
@@ -54,6 +55,7 @@
                 {
                     new
                     {
+                        Accessibility = (object)"",
                         Name = obj.GetType().ToString(),
                         Value = (object)obj.ToString()
                     }
@@ -65,6 +67,7 @@
                          where !isIndexed && getSupported
                          select new
                          {
+                             Accessibility = getSupported ? GetAccessibility(p.GetMethod) : (object)"",
                              p.Name,
                              Value =
                                 getSupported
@@ -88,12 +91,14 @@
 
                          select new
                          {
+                             Accessibility = GetAccessibility(m),
                              Name = m.Name + "()",
                              Value = result
                          }
                      )
                      .OrderBy(a => a.Name)
-                     .ToList();
+                     .ToList()
+                     .Skip(0);
         }
 
         public static string DumpJson<T>(this T obj)
@@ -148,7 +153,9 @@
 
                 if (result.GetType().IsPrimitive || currentDepth >= depth)
                 {
-                    return result.ToString();
+                    return result.GetType().IsArray
+                        ? result
+                        : result.ToString();
                 }
 
                 return ReflectOnType(result, depth, ++currentDepth);
@@ -161,6 +168,33 @@
             {
                 return ex;
             }
+        }
+
+        static object GetAccessibility(MethodBase method)
+        {
+            var accessibility =
+                method.IsPublic
+                    ? "public"
+                    : method.IsPrivate
+                        ? "private"
+                        : method.IsVirtual
+                            ? "virtual"
+                                : method.IsAbstract
+                                    ? "abstract"
+                                    : method.IsConstructor
+                                        ? "ctor"
+                                        : method.IsAssembly
+                                            ? "internal"
+                                            : method.IsFamily
+                                                ? "protected"
+                                                : method.IsFamilyOrAssembly
+                                                    ? "protected internal"
+                                                    : "--";
+            accessibility += method.IsStatic
+                ? " static"
+                : "";
+
+            return Util.RawHtml(@"<span style='color: Blue'>" + accessibility + @"</span>");
         }
     }
 }
