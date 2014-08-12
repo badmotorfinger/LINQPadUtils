@@ -1,4 +1,5 @@
-﻿namespace LINQPad
+﻿using LINQPadUtils;
+namespace LINQPad
 {
     using System;
     using System.Collections.Generic;
@@ -53,7 +54,7 @@
             return
                  new[]
                 {
-                    new
+                    new ReflectedResult
                     {
                         Accessibility = (object)"",
                         Name = obj.GetType().ToString(),
@@ -65,10 +66,10 @@
                          let isIndexed = p.GetIndexParameters().Length > 0
                          let getSupported = p.GetMethod != null
                          where !isIndexed && getSupported
-                         select new
+                         select new ReflectedResult
                          {
                              Accessibility = getSupported ? GetAccessibility(p.GetMethod) : (object)"",
-                             p.Name,
+                             Name = p.Name,
                              Value =
                                 getSupported
                                     ? InvokeMethod(() => p.GetValue(obj, null), depth, currentDepth)
@@ -89,7 +90,7 @@
 
                          let result = InvokeMethod(() => m.Invoke(obj, null), depth, currentDepth)
 
-                         select new
+                         select new ReflectedResult
                          {
                              Accessibility = GetAccessibility(m),
                              Name = m.Name + "()",
