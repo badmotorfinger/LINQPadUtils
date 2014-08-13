@@ -24,8 +24,6 @@
             return obj;
         }
 
-        
-
         static string GetRawHtmlValue(object rawHtml)
         {
             var mi = Assembly.GetCallingAssembly().GetTypes().First(a => a.Name.Contains("Raw")).GetFields().First(a => a.Name.Contains("Html"));

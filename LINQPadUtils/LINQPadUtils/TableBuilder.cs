@@ -6,42 +6,51 @@
     using System.Linq;
     using System.Reflection;
     using System.Text;
+    using System.Windows;
 
     using LINQPad;
 
+    using LINQPadUtils.Markup;
+
     public class TableBuilder
     {
-        readonly IEnumerable collection;
+        readonly object objectToDisplay;
+
+        IEnumerable collection;
 
         readonly TableHeading[] headings;
 
         public TableBuilder(object dumpObj)
         {
-            if (dumpObj is IEnumerable)
-            {
-                this.collection = (IEnumerable)dumpObj;
-            }
-            else
-            {
-                this.collection = new[] { dumpObj };
-            }
+            //if (dumpObj is IEnumerable)
+            //{
+            //    this.collection = (IEnumerable)dumpObj;
+            //}
+            //else
+            //{
+            //    this.collection = new[] { dumpObj };
+            //} 
+            this.objectToDisplay = dumpObj;
+        }
 
-            var objectType = dumpObj.GetType();
+        void Do()
+        {
+            //var objectType = dumpObj.GetType();
 
-            Type objType =
-                objectType.IsGenericType
-                    ? dumpObj.GetType().GetGenericArguments().First()
-                    : objectType;
+            //Type objType =
+            //    objectType.IsGenericType
+            //        ? dumpObj.GetType().GetGenericArguments().First()
+            //        : objectType;
 
-            this.headings =
-                objType.GetProperties()
-                   .Select(p => new TableHeading
-                   {
-                       Title = p.Name,
-                       Type = p.PropertyType,
-                       PropertyInfo = p
-                   })
-                   .ToArray();
+            //this.headings =
+            //    objType.GetProperties()
+            //       .Select(p => new TableHeading
+            //       {
+            //           Title = p.Name,
+            //           Type = p.PropertyType,
+            //           PropertyInfo = p
+            //       })
+            //       .ToArray();
         }
 
         StringBuilder GetRowDataAsHtml()
@@ -112,21 +121,29 @@
 
         public override string ToString()
         {
-            var renderedHeadings = this.GetHeadingsAsHtml();
-            var renderedRows = this.GetRowDataAsHtml();
+            var document = new LinqPadHtmlDocument();
 
-            var resultBuilder = new StringBuilder(LinqPadUtils.ResultTable);
+            if (ValueDisplay.IsPlainVanilaDisplay(this.objectToDisplay))
+            {
+                document.AddRenderer(() => ValueDisplay.GetDisplayValue(this.objectToDisplay));
+            }
+            else
+            {
+                var renderedHeadings = this.GetHeadingsAsHtml();
+                var renderedRows = this.GetRowDataAsHtml();
 
-            int count = collection.Cast<object>().Count();
+                var resultBuilder = new StringBuilder(LinqPadUtilResources.ResultTable);
 
-            resultBuilder
-                .Replace("{colspan}", this.headings.Length.ToString())
-                .Replace("{typename}", collection.GetType().ToString())
-                .Replace("{itemcount}", count.ToString(CultureInfo.InvariantCulture))
-                .Replace("{headings}", renderedHeadings.ToString())
-                .Replace("{rows}", renderedRows.ToString());
+                int count = collection.Cast<object>().Count();
 
-            return LinqPadUtils.DumpExtended.Replace("{content}", resultBuilder.ToString());
+                resultBuilder.Replace("{colspan}", this.headings.Length.ToString())
+                             .Replace("{typename}", collection.GetType().ToString())
+                             .Replace("{itemcount}", count.ToString(CultureInfo.InvariantCulture))
+                             .Replace("{headings}", renderedHeadings.ToString())
+                             .Replace("{rows}", renderedRows.ToString());
+            }
+
+            return document.ToString();
         }
     }
 

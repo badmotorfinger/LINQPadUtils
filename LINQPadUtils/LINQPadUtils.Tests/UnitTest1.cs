@@ -7,7 +7,7 @@ namespace LINQPadUtils.Tests
     public class UnitTest1
     {
         [TestMethod]
-        public void When_a_object_is_array_dump_values()
+        public void ()
         {
             var tableB = new TableBuilder(new[] { 1, 2, 3});
 
