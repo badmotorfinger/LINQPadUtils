@@ -5,6 +5,8 @@ VisualStudioVersion = 12.0.30501.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LINQPadUtils", "LINQPadUtils\LINQPadUtils.csproj", "{27D7B206-471B-4DFE-A93E-2EC2842C486B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LINQPadUtils.Tests", "LINQPadUtils.Tests\LINQPadUtils.Tests.csproj", "{5F55F824-C9A6-43A0-BA50-BCE380AC4427}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{27D7B206-471B-4DFE-A93E-2EC2842C486B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{27D7B206-471B-4DFE-A93E-2EC2842C486B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{27D7B206-471B-4DFE-A93E-2EC2842C486B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5F55F824-C9A6-43A0-BA50-BCE380AC4427}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F55F824-C9A6-43A0-BA50-BCE380AC4427}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F55F824-C9A6-43A0-BA50-BCE380AC4427}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F55F824-C9A6-43A0-BA50-BCE380AC4427}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

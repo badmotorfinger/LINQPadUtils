@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>9a11d638-d37f-46c5-88f2-dbdffd42e221</ProjectGuid>
+    <ProjectGuid>{5F55F824-C9A6-43A0-BA50-BCE380AC4427}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>LINQPadUtils.Tests</RootNamespace>
@@ -52,6 +52,12 @@
   <ItemGroup>
     <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LINQPadUtils\LINQPadUtils.csproj">
+      <Project>{27D7B206-471B-4DFE-A93E-2EC2842C486B}</Project>
+      <Name>LINQPadUtils</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
