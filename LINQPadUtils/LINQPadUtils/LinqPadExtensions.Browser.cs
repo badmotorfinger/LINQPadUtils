@@ -13,17 +13,15 @@
     {
         public static object DumpBrowser<T>(this T obj)
         {
-            var objGraph = (IEnumerable<object>)ReflectOnType(obj, 0, 0);
-            
             var webBrowser = new WebBrowser();
 
-            var tableRenderer = new TableBuilder(objGraph); 
+            var tableRenderer = new TableBuilder(obj); 
 
             webBrowser.NavigateToString(tableRenderer.ToString());
 
             PanelManager.DisplayWpfElement(webBrowser);
 
-            return "";
+            return obj;
         }
 
         
