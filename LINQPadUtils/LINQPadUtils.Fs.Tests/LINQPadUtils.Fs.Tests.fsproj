@@ -94,7 +94,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="NUnitRunner.fs" />
-    <Compile Include="LINQPadUtils.Fs.Tests.fs" />
     <Compile Include="Rendering.Tests.fs" />
     <None Include="Script.fsx" />
     <None Include="packages.config" />

@@ -7,21 +7,29 @@ open LINQPadUtils
 open LINQPadUtils.Markup
 
 module RenderingTests =
-    
+
     type ``When rendering a value to the screen``()=
-    
+
         [<Fact>]
-        member public this.``the renderer should gjoin all string fragments``()=
-           
+        member public this.``the renderer should join all string fragments``()=
+
             let document = new LinqPadHtmlDocument("foo", "bar")
 
             document.AddRenderer (fun() -> "baz")
 
-            let expectedOutput = "foobarbaz"
+            let expectedOutput = "foobazbar"
 
             let actualOutput = document.ToString()
 
             expectedOutput |> should equal actualOutput
 
+        [<Fact>]
+        member public this.``and it's a simple primitive type, render the tag``()=
 
+            let tag = HtmlTag.WrapValue("xx", "yy")
 
+            let newTag = tag.ToString()
+
+            let expectedTag = "<xx>yy</xx>"
+
+            newTag |> should equal expectedTag

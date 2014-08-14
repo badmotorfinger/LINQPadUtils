@@ -58,11 +58,12 @@
     </Compile>
     <Compile Include="Markup\HtmlTag.cs" />
     <Compile Include="Markup\LinqPadHtmlDocument.cs" />
+    <Compile Include="PrimitiveCollectionMetadataProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReflectedResult.cs" />
     <Compile Include="TableBuilder.cs" />
     <Compile Include="TokenReplacer.cs" />
-    <Compile Include="ValueDisplay.cs" />
+    <Compile Include="ValueInspector.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Markup\DumpExtendedFoot.html" />

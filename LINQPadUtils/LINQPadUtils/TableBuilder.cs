@@ -123,9 +123,14 @@
         {
             var document = new LinqPadHtmlDocument();
 
-            if (ValueDisplay.IsPlainVanilaDisplay(this.objectToDisplay))
+            if (ValueInspector.IsPrimitiveObject(this.objectToDisplay))
             {
-                document.AddRenderer(() => ValueDisplay.GetDisplayValue(this.objectToDisplay));
+                document.AddRenderer(
+                    () =>
+                    {
+                        var value = ValueInspector.GetDisplayValue(this.objectToDisplay);
+                        return HtmlTag.WrapValue("span", value).ToString();
+                    });
             }
             else
             {
