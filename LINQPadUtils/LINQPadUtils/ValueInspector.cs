@@ -4,10 +4,16 @@
     using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Reflection;
+    using System.Web;
+
+    using LINQPad;
 
     public static class ValueInspector
     {
-        static Func<object, TableHeading[]> objectHeadingsFunc = GetHeadingsForType();
+        static readonly Lazy<Type> RawHtmlType = new Lazy<Type>(() => Assembly.GetAssembly(typeof(ExecutionEngine)).GetType("LINQPad.ObjectGraph.RawHtml"));
+
+        static Func<object, PropertyInfo[]> objectHeadingsFunc = GetHeadingsForType();
 
         /// <summary>
         /// Gets the display value by performing a ToString() operation.
@@ -16,7 +22,30 @@
         /// <returns>A string representation of the object.</returns>
         public static string GetDisplayValue(object obj)
         {
-            return obj.ToString();
+            return GetDisplayValue(obj, obj.GetType());
+        }
+
+        /// <summary>
+        /// Gets the display value by performing a ToString() operation.
+        /// </summary>
+        /// <param name="obj">The object.</param>
+        /// <param name="objType">The object type.</param>
+        /// <returns>A string representation of the object.</returns>
+        public static string GetDisplayValue(object obj, Type objType)
+        {
+            string displayValue;
+            if (RawHtmlType.Value == objType)
+            {
+                var fi = RawHtmlType.Value.GetField("Html");
+
+               displayValue = fi.GetValue(obj).ToString();
+            }
+            else
+            {
+                displayValue = obj.ToString();
+            }
+
+            return HttpUtility.HtmlEncode(displayValue);
         }
 
         public static bool IsPrimitiveObject(object obj)
@@ -46,45 +75,89 @@
 
                 if (objType.IsGenericType)
                 {
-                    var elementType = objType.GetGenericArguments()[0];
+                    var elementType = objType.GetGenericArguments()[0]; // IEnumerable only has one generic type parameter.
                     return IsPrimitiveType(elementType);
                 }
-
-                throw new Exception("Could not determine IEnumerable element type.");
             }
 
             return false;
         }
 
-        static Func<object, TableHeading[]> GetHeadingsForType()
+        public static bool IsObjectBasedEnumerable(object obj)
         {
-            var typeInfo = new Dictionary<Type, TableHeading[]>();
+            var objType = obj.GetType();
+
+            if (obj is IEnumerable)
+            {
+                if (objType.IsArray)
+                {
+                    var elementType = objType.GetElementType();
+                    return elementType.BaseType == null;
+                }
+
+                if (objType.IsGenericType)
+                {
+                    var elementType = objType.GetGenericArguments()[0]; // IEnumerable only has one generic type parameter.
+                    return elementType.BaseType == null;
+                }
+            }
+
+            return false;
+        }
+
+        public static bool IsStaticTypeEnumerable(object obj)
+        {
+            Type elementType;
+            return IsStaticTypeEnumerable(obj, out elementType);
+        }
+
+        public static bool IsStaticTypeEnumerable(object obj, out Type elementType)
+        {
+            elementType = null;
+
+            var objType = obj.GetType();
+
+            if (obj is IEnumerable)
+            {
+                if (objType.IsArray)
+                {
+                    elementType = objType.GetElementType();
+
+                    return elementType.BaseType != null;
+                }
+
+                if (objType.IsGenericType)
+                {
+                    elementType = objType.GetGenericArguments()[0]; // IEnumerable only has one generic type parameter.
+
+                    return elementType.BaseType != null;
+                }
+            }
+            
+            return false;
+        }
+
+        static Func<object, PropertyInfo[]> GetHeadingsForType()
+        {
+            var typeInfo = new Dictionary<Type, PropertyInfo[]>();
 
             return source =>
             {
                 var sourceType = source.GetType();
 
-                TableHeading[] headings;
+                PropertyInfo[] headings;
 
                 if (typeInfo.TryGetValue(sourceType, out headings))
                 {
                     return headings;
                 }
 
-                if (ValueInspector.IsPrimitiveType(sourceType))
+                if (IsPrimitiveType(sourceType))
                 {
-                    return typeInfo[sourceType] = new TableHeading[0];
+                    return typeInfo[sourceType] = new PropertyInfo[0];
                 }
 
-                return typeInfo[sourceType] = sourceType.GetProperties()
-                    .Select(
-                        p => new TableHeading
-                             {
-                                 Title = p.Name,
-                                 Type = p.PropertyType,
-                                 PropertyInfo = p
-                             })
-                    .ToArray();
+                return typeInfo[sourceType] = sourceType.GetProperties().ToArray();
             };
         }
     }

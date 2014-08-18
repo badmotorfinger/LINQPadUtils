@@ -77,7 +77,8 @@ namespace LINQPadUtils {
         ///&lt;head&gt;
         ///    &lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html;charset=utf-8&quot; /&gt;
         ///    &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=edge&quot; /&gt;
-        ///    &lt;meta name=&quot;Generator&quot; content=&quot;LINQ to XML, baby!&quot; /&gt;
+        ///    &lt;meta name=&quot;Generator&quot; content=&quot;LINQPadUtils, honey!&quot; /&gt;
+        ///
         ///    &lt;style type=&apos;text/css&apos;&gt;
         ///        body {
         ///            margin: 0.3em 0.3em 0.4em 0.4em;
@@ -89,11 +90,21 @@ namespace LINQPadUtils {
         ///        p, pre {
         ///            margin: 0;
         ///            padding: 0;
-        ///            font- [rest of string was truncated]&quot;;.
+        ///            f [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string DumpExtendedHead {
             get {
                 return ResourceManager.GetString("DumpExtendedHead", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to     &lt;/table&gt;
+        ///&lt;/div&gt;.
+        /// </summary>
+        internal static string EnumerableResultTableFoot {
+            get {
+                return ResourceManager.GetString("EnumerableResultTableFoot", resourceCulture);
             }
         }
         
@@ -111,9 +122,68 @@ namespace LINQPadUtils {
         ///            &lt;/td&gt;
         ///       [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string ResultTable {
+        internal static string EnumerableResultTableHead {
             get {
-                return ResourceManager.GetString("ResultTable", resourceCulture);
+                return ResourceManager.GetString("EnumerableResultTableHead", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to var firebug={version:[1.231,20100118],el:{},env:{&quot;css&quot;:&quot;http://getfirebug.com/releases/lite/1.2/firebug-lite.css&quot;,&quot;debug&quot;:true,&quot;detectFirebug&quot;:true,&quot;dIndex&quot;:&quot;console&quot;,&quot;height&quot;:295,&quot;hideDOMFunctions&quot;:false,&quot;openInPopup&quot;:false,&quot;override&quot;:false,&quot;ml&quot;:false,&quot;showIconWhenHidden&quot;:true,&quot;popupTop&quot;:1,&quot;popupLeft&quot;:1,&quot;popupWidth&quot;:undefined,&quot;popupHeight&quot;:undefined,&quot;textNodeChars&quot;:0},internal:{&quot;cache&quot;:{},&quot;extConsole&quot;:null,&quot;init&quot;:false,&quot;isPopup&quot;:false,&quot;liteFilename&quot;:null,&quot;minimized&quot;:false,&quot;popupWin&quot;:null,&quot;targetWindow&quot;:und [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string firebug_lite_compressed {
+            get {
+                return ResourceManager.GetString("firebug_lite_compressed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to /*! jQuery v1.11.1 | (c) 2005, 2014 jQuery Foundation, Inc. | jquery.org/license */
+        ///!function(a,b){&quot;object&quot;==typeof module&amp;&amp;&quot;object&quot;==typeof module.exports?module.exports=a.document?b(a,!0):function(a){if(!a.document)throw new Error(&quot;jQuery requires a window with a document&quot;);return b(a)}:b(a)}(&quot;undefined&quot;!=typeof window?window:this,function(a,b){var c=[],d=c.slice,e=c.concat,f=c.push,g=c.indexOf,h={},i=h.toString,j=h.hasOwnProperty,k={},l=&quot;1.11.1&quot;,m=function(a,b){return new m.fn.init(a,b)},n=/^[\s\uFEFF\xA [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string jquery_1_11_1_min {
+            get {
+                return ResourceManager.GetString("jquery_1_11_1_min", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 
+        ///(function($){$.extend({tablesorter:new
+        ///function(){var parsers=[],widgets=[];this.defaults={cssHeader:&quot;header&quot;,cssAsc:&quot;headerSortUp&quot;,cssDesc:&quot;headerSortDown&quot;,cssChildRow:&quot;expand-child&quot;,sortInitialOrder:&quot;asc&quot;,sortMultiSortKey:&quot;shiftKey&quot;,sortForce:null,sortAppend:null,sortLocaleCompare:true,textExtraction:&quot;simple&quot;,parsers:{},widgets:[],widgetZebra:{css:[&quot;even&quot;,&quot;odd&quot;]},headers:{},widthFixed:false,cancelSelection:true,sortList:[],headerList:[],dateFormat:&quot;us&quot;,decimal:&apos;/\.|\,/g&apos;,onRenderHeader:null,selectorHeade [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string jquery_tablesorter_min {
+            get {
+                return ResourceManager.GetString("jquery_tablesorter_min", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to     &lt;/table&gt;
+        ///&lt;/div&gt;.
+        /// </summary>
+        internal static string ObjectResultTableFoot {
+            get {
+                return ResourceManager.GetString("ObjectResultTableFoot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;div class=&quot;spacer&quot;&gt;
+        ///    &lt;table id=&quot;t1&quot;&gt;
+        ///        &lt;tr&gt;
+        ///            &lt;td class=&quot;typeheader&quot; colspan=&quot;{colspan}&quot;&gt;
+        ///                &lt;a href=&quot;&quot; class=&quot;typeheader&quot; onclick=&quot;return toggle(&apos;t1&apos;);&quot;&gt;
+        ///                    &lt;span class=&quot;typeglyph&quot; id=&quot;t1ud&quot;&gt;5&lt;/span&gt;{typename}
+        ///                &lt;/a&gt;
+        ///                &lt;a href=&quot;&quot; class=&quot;extenser&quot; onclick=&quot;return window.external.CustomClick(&apos;0&apos;,false);&quot;&gt;&lt;span class=&quot;extenser&quot;&gt;4&lt;/span&gt;&lt;/a&gt;
+        ///            &lt;/td&gt;
+        ///        &lt;/tr&gt;
+        ///.
+        /// </summary>
+        internal static string ObjectResultTableHead {
+            get {
+                return ResourceManager.GetString("ObjectResultTableHead", resourceCulture);
             }
         }
     }

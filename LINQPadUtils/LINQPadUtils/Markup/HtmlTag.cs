@@ -19,7 +19,7 @@
 
         public override string ToString()
         {
-            return String.Format("<{0}>{1}</{0}>", TagName, HttpUtility.HtmlEncode(TagDisplayText));
+            return String.Format("<{0}>{1}</{0}>", TagName, TagDisplayText);
         }
 
         public static HtmlTag WrapValue(string tag, string value)

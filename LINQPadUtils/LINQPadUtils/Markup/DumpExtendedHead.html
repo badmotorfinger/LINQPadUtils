@@ -3,7 +3,8 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="Generator" content="LINQ to XML, baby!" />
+    <meta name="Generator" content="LINQPadUtils, honey!" />
+
     <style type='text/css'>
         body {
             margin: 0.3em 0.3em 0.4em 0.4em;
@@ -185,6 +186,54 @@
         }
     </style>
 
+    <style type='text/css'>
+        table.tablesorter {
+            font-family: arial;
+            background-color: #CDCDCD;
+            /*margin: 10px 0pt 15px;*/
+            font-size: 8pt;
+            width: 100%;
+            text-align: left;
+        }
+
+            table.tablesorter thead tr th, table.tablesorter tfoot tr th {
+                background-color: #e6EEEE;
+                border: 1px solid #FFF;
+                font-size: 8pt;
+                padding: 4px;
+            }
+
+            table.tablesorter thead tr .header {
+                background-image: url(data:image/gif;base64,R0lGODlhFQAJAIAAACMtMP///yH5BAEAAAEALAAAAAAVAAkAAAIXjI+AywnaYnhUMoqt3gZXPmVg94yJVQAAOw==);
+                background-repeat: no-repeat;
+                background-position: center right;
+                cursor: pointer;
+            }
+
+            table.tablesorter tbody td {
+                color: #3D3D3D;
+                padding: 4px;
+                background-color: #FFF;
+                vertical-align: top;
+            }
+
+            table.tablesorter tbody tr.odd td {
+                background-color: #F0F0F6;
+            }
+
+            table.tablesorter thead tr .headerSortUp {
+                background-image: url(data:image/gif;base64,R0lGODlhFQAEAIAAACMtMP///yH5BAEAAAEALAAAAAAVAAQAAAINjB+gC+jP2ptn0WskLQA7);
+            }
+
+            table.tablesorter thead tr .headerSortDown {
+                background-image: url(data:image/gif;base64,R0lGODlhFQAEAIAAACMtMP///yH5BAEAAAEALAAAAAAVAAQAAAINjI8Bya2wnINUMopZAQA7);
+            }
+
+            table.tablesorter thead tr .headerSortDown, table.tablesorter thead tr .headerSortUp {
+                background-color: #8dbdd8;
+            }
+    </style>
+
     <script language='JavaScript' type='text/javascript'>
 
         function toggle(id) {
@@ -209,6 +258,20 @@
         }
 
     </script>
+
+    <script>
+        {script}
+    </script>
+    <script>
+        {tablesorter}
+    </script>
+    
+    
 </head>
 <body>
     <div>
+        <script>
+            $(document).ready(function () {
+                $("table").tablesorter();
+            });
+        </script>

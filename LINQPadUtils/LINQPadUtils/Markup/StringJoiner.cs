@@ -8,28 +8,34 @@ namespace LINQPadUtils.Markup
 {
     using System.Runtime.InteropServices.WindowsRuntime;
 
-    public class LinqPadHtmlDocument
+    public class StringJoiner
     {
-        readonly StringBuilder document;
+        internal StringBuilder document;
 
         readonly string footer;
 
         readonly List<Func<string>> renderFuncs = new List<Func<string>>();
 
-        public LinqPadHtmlDocument()
+        public StringJoiner()
         {
-            this.document = new StringBuilder(LinqPadUtilResources.DumpExtendedHead);
-            this.footer = LinqPadUtilResources.DumpExtendedFoot;
+            this.document = new StringBuilder();
+            this.footer = String.Empty;
         }
-        public LinqPadHtmlDocument(string head, string foot)
+
+        public StringJoiner(string head, string foot)
         {
             this.document = new StringBuilder(head);
             this.footer = foot;
         }
 
-        public void AddRenderer(Func<string> renderFunc)
+        public void AppendFunc(Func<string> renderFunc)
         {
             renderFuncs.Add(renderFunc);
+        }
+
+        public void Append(string s)
+        {
+            document.Append(s);
         }
 
         public override string ToString()
@@ -39,7 +45,7 @@ namespace LINQPadUtils.Markup
                 document.Append(renderFunc());
             }
 
-            return document.Append(LinqPadUtilResources.DumpExtendedFoot)
+            return document.Append(footer)
                            .ToString();
         }
     }

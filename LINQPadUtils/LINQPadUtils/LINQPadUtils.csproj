@@ -16,7 +16,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\..\Users\vpanuccio\OneDrive\tools\LINQPad\Plugins\</OutputPath>
+    <OutputPath>C:\Users\Vince\SkyDrive\tools\LINQPad\LINQPad Plugins\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -57,18 +57,42 @@
       <DependentUpon>LinqPadUtilResources.resx</DependentUpon>
     </Compile>
     <Compile Include="Markup\HtmlTag.cs" />
-    <Compile Include="Markup\LinqPadHtmlDocument.cs" />
-    <Compile Include="PrimitiveCollectionMetadataProvider.cs" />
+    <Compile Include="Markup\StringJoiner.cs" />
+    <Compile Include="MetadataProviders\EnumerableObjectTypeMetadataProvider.cs" />
+    <Compile Include="MetadataProviders\EnumerablePrimitiveTypeMetadataProvider.cs" />
+    <Compile Include="MetadataProviders\EnumerableComplexObjectTypeMetadataProvider.cs" />
+    <Compile Include="MetadataProviders\TypeMetadataProviderBase.cs" />
+    <Compile Include="MetadataProviders\ComplexTypeMetadataProvider.cs" />
+    <Compile Include="MetadataProviders\PrimitiveTypeMetadataProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReflectedResult.cs" />
-    <Compile Include="TableBuilder.cs" />
+    <Compile Include="Renderers\ComplexTypeFragment.cs" />
+    <Compile Include="Renderers\EnumerableTypeFragment.cs" />
+    <Compile Include="Renderers\PrimitiveTypeFragment.cs" />
+    <Compile Include="Renderers\FragmentBase.cs" />
+    <Compile Include="Renderers\Tables\Heading\ComplexTypeTableHeadingFragment.cs" />
+    <Compile Include="Renderers\Tables\RowFragments\ComplexObjectTableRowsFragment.cs" />
+    <Compile Include="Renderers\Tables\RowFragments\EnumerableComplexObjectTableRowsFragment.cs" />
+    <Compile Include="Renderers\Tables\RowFragments\EnumerableObjectTableRowsFragment.cs" />
+    <Compile Include="Renderers\Tables\StartFragments\ComplexTypeTableStartFragment.cs" />
+    <Compile Include="Renderers\Tables\TableEndFragment.cs" />
+    <Compile Include="Renderers\Tables\StartFragments\EnumerableTypeTableStartFragment.cs" />
+    <Compile Include="Renderers\Tables\Heading\TableHeadingFragment.cs" />
+    <Compile Include="Renderers\Tables\RowFragments\PrimitiveEnumerableTableRowsFragment.cs" />
+    <Compile Include="Renderers\TableBuilder.cs" />
     <Compile Include="TokenReplacer.cs" />
     <Compile Include="ValueInspector.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Markup\DumpExtendedFoot.html" />
     <Content Include="Markup\DumpExtendedHead.html" />
-    <Content Include="ResultTable.html" />
+    <Content Include="Markup\EnumerableResultTableFoot.html" />
+    <Content Include="Markup\EnumerableResultTableHead.html" />
+    <Content Include="Markup\ObjectResultTableFoot.html" />
+    <Content Include="Markup\ObjectResultTableHead.html" />
+    <Content Include="Resources\firebug-lite-compressed.js" />
+    <Content Include="Resources\jquery-1.11.1.min.js" />
+    <Content Include="Resources\jquery.tablesorter.min.js" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="LinqPadUtilResources.resx">
@@ -76,6 +100,7 @@
       <LastGenOutput>LinqPadUtilResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

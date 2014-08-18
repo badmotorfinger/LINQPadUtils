@@ -23,6 +23,17 @@ module PrimitiveValues =
         member public this.``and the primitive is a DateTime, display the date time``() = 
             let displayValue = ValueInspector.GetDisplayValue(DateTime.Parse("01/01/01"))
             displayValue |> should equal (DateTime.Parse("01/01/01").ToString())
+
+        [<Fact>]
+        member public this.``and it's the LINQPad RawHtml object, render markup``()=
+            
+            let markup = LINQPad.Util.RawHtml("<span>foo</span>")
+
+            let renderedValue = ValueInspector.GetDisplayValue(markup)
+
+            let expectedTag = "<span>foo</span>"
+
+            renderedValue |> should equal expectedTag
     
     type ``When deciding whether to display a value``() = 
         
@@ -48,28 +59,4 @@ module PrimitiveValues =
             let displayArray = ValueInspector.IsPrimitiveEnumerable([ 1; 2; 3 ])
             displayArray |> should equal true
     
-    type ``When getting metadata about a type``() = 
-        
-        [<Fact>]
-        member public this.``and the type is a primitive, return a primitive metadata provider``() = 
-            let sequenceMetadata = TypeMetadataProvider.GetMetadataProvider(1)
-            let metadataType = sequenceMetadata.GetType()
-            metadataType |> should equal typedefof<PrimitiveTypeMetadataProvider>
-
-        [<Fact>]
-        member public this.``and the type is a string, return a primitive metadata provider``() = 
-            let sequenceMetadata = TypeMetadataProvider.GetMetadataProvider(String.Empty)
-            let metadataType = sequenceMetadata.GetType()
-            metadataType |> should equal typedefof<PrimitiveTypeMetadataProvider>
-
-        [<Fact>]
-        member public this.``and the type is a date/time, return a primitive metadata provider``() = 
-            let sequenceMetadata = TypeMetadataProvider.GetMetadataProvider(DateTime.Now)
-            let metadataType = sequenceMetadata.GetType()
-            metadataType |> should equal typedefof<PrimitiveTypeMetadataProvider>
-
-        [<Fact>]
-        member public this.``and the type is a primitive collection, return a primitive collection metadata provider``() = 
-            let sequenceMetadata = TypeMetadataProvider.GetMetadataProvider([1;2;3])
-            let metadataType = sequenceMetadata.GetType()
-            metadataType |> should equal typedefof<PrimitiveCollectionMetadataProvider>
+    
