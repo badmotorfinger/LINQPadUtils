@@ -53,46 +53,62 @@ type ``When getting metadata about a enumearble type``() =
     
     [<Fact>]
     member public this.``and it's a generic primitive IEnumerable, it should return the EnumerablePrimitiveTypeProvider``() = 
-        let primitiveArray = new ResizeArray<string>()
-        let metadata = TypeMetadataProviderBase.GetMetadataProvider(primitiveArray)
+        let primitiveEnumerable = new ResizeArray<string>()
+        let metadata = TypeMetadataProviderBase.GetMetadataProvider(primitiveEnumerable)
         let metadataType = metadata.GetType()
         let expectedMetadataType = typedefof<EnumerablePrimitiveTypeMetadataProvider>
         metadataType |> should equal expectedMetadataType
     
     [<Fact>]
     member public this.``and it's an object based array, it should return the EnumerableObjectTypeProvider``() = 
-        let primitiveArray = 
+        let objectArray = 
             [| new obj()
                new obj() |]
         
-        let metadata = TypeMetadataProviderBase.GetMetadataProvider(primitiveArray)
+        let metadata = TypeMetadataProviderBase.GetMetadataProvider(objectArray)
         let metadataType = metadata.GetType()
         let expectedMetadataType = typedefof<EnumerableObjectTypeMetadataProvider>
         metadataType |> should equal expectedMetadataType
     
     [<Fact>]
     member public this.``and it's an object based generic IEnumerable, it should return the EnumerableObjectTypeProvider``() = 
-        let primitiveArray = new ResizeArray<obj>()
-        let metadata = TypeMetadataProviderBase.GetMetadataProvider(primitiveArray)
+        let objectList = new ResizeArray<obj>()
+        let metadata = TypeMetadataProviderBase.GetMetadataProvider(objectList)
         let metadataType = metadata.GetType()
         let expectedMetadataType = typedefof<EnumerableObjectTypeMetadataProvider>
         metadataType |> should equal expectedMetadataType
     
     [<Fact>]
     member public this.``and it's a complex object generic IEnumerable, it should return the EnumerableComplexObjectTypeMetadataProvider``() = 
-        let primitiveArray = new ResizeArray<Foo>()
-        let metadata = TypeMetadataProviderBase.GetMetadataProvider(primitiveArray)
+        let complexObjectList = new ResizeArray<Foo>()
+        let metadata = TypeMetadataProviderBase.GetMetadataProvider(complexObjectList)
         let metadataType = metadata.GetType()
         let expectedMetadataType = typedefof<EnumerableComplexObjectTypeMetadataProvider>
         metadataType |> should equal expectedMetadataType
     
     [<Fact>]
     member public this.``and it's a complex object array, it should return the EnumerableComplexObjectTypeMetadataProvider``() = 
-        let primitiveArray = 
+        let complexObjectArray = 
             [| { Foo = "foo"
                  Bar = 0 } |]
         
-        let metadata = TypeMetadataProviderBase.GetMetadataProvider(primitiveArray)
+        let metadata = TypeMetadataProviderBase.GetMetadataProvider(complexObjectArray)
         let metadataType = metadata.GetType()
         let expectedMetadataType = typedefof<EnumerableComplexObjectTypeMetadataProvider>
+        metadataType |> should equal expectedMetadataType
+
+    [<Fact>]
+    member public this.``and it's a generic dictionary, it should return the EnumerableComplexObjectTypeMetadataProvider``() = 
+        let dictionary = new System.Collections.Generic.Dictionary<int,string>()
+        let metadata = TypeMetadataProviderBase.GetMetadataProvider(dictionary)
+        let metadataType = metadata.GetType()
+        let expectedMetadataType = typedefof<EnumerableComplexObjectTypeMetadataProvider>
+        metadataType |> should equal expectedMetadataType
+
+    [<Fact>]
+    member public this.``and it's a HashTable, it should return the EnumerableComplexObjectTypeMetadataProvider``() = 
+        let hashtable = new System.Collections.Hashtable()
+        let metadata = TypeMetadataProviderBase.GetMetadataProvider(hashtable)
+        let metadataType = metadata.GetType()
+        let expectedMetadataType = typedefof<EnumerableObjectTypeMetadataProvider>
         metadataType |> should equal expectedMetadataType

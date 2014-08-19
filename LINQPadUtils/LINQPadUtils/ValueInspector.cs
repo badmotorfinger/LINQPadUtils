@@ -92,6 +92,11 @@
         {
             var objType = obj.GetType();
 
+            if (obj is Hashtable)
+            {
+                return true;
+            }
+
             if (obj is IEnumerable)
             {
                 if (objType.IsArray)
