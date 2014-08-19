@@ -5,14 +5,10 @@
 
     class EnumerableComplexObjectTypeMetadataProvider : TypeMetadataProviderBase
     {
-        public EnumerableComplexObjectTypeMetadataProvider(object obj)
+        public EnumerableComplexObjectTypeMetadataProvider(object obj, Type elementType)
             : base(obj)
         {
-            Type elementType;
-
-            this.Properties = ValueInspector.IsStaticTypeEnumerable(obj, out elementType) 
-                ? elementType.GetProperties() 
-                : new PropertyInfo[0];
+            this.Properties = elementType.GetProperties();
         }
 
         public override bool IsEnumerableObject

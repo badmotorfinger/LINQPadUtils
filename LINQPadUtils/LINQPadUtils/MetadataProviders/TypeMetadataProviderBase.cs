@@ -33,9 +33,10 @@
                     return new EnumerableObjectTypeMetadataProvider(obj);
                 }
 
-                if (ValueInspector.IsStaticTypeEnumerable(obj))
+                Type elementType;
+                if (ValueInspector.IsStaticTypeEnumerable(obj, out elementType))
                 {
-                    return new EnumerableComplexObjectTypeMetadataProvider(obj);
+                    return new EnumerableComplexObjectTypeMetadataProvider(obj, elementType);
                 }
 
                 throw new ApplicationException("Could not determine enumerable type.");

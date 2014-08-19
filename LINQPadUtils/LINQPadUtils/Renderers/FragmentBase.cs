@@ -50,7 +50,7 @@
                     return String.Format("{0}{1}", cleanName, genericArgsJoined);
                 }
             }
-            return type.ToString();
+            return type.ToString().Replace("UserQuery+", String.Empty);
         }
     }
 }

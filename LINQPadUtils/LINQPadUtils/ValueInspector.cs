@@ -38,7 +38,7 @@
             {
                 var fi = RawHtmlType.Value.GetField("Html");
 
-               displayValue = fi.GetValue(obj).ToString();
+                displayValue = fi.GetValue(obj).ToString();
             }
             else
             {
@@ -75,8 +75,13 @@
 
                 if (objType.IsGenericType)
                 {
-                    var elementType = objType.GetGenericArguments()[0]; // IEnumerable only has one generic type parameter.
-                    return IsPrimitiveType(elementType);
+                    var kvpType = objType.GetInterfaces().FirstOrDefault(i => i.Name.Contains("IEnumerable`"));
+
+                    if (kvpType != null)
+                    {
+                        var elementType = kvpType.GetGenericArguments()[0]; // IEnumerable only has one generic type parameter.
+                        return IsPrimitiveType(elementType);
+                    }
                 }
             }
 
@@ -97,8 +102,13 @@
 
                 if (objType.IsGenericType)
                 {
-                    var elementType = objType.GetGenericArguments()[0]; // IEnumerable only has one generic type parameter.
-                    return elementType.BaseType == null;
+                    var kvpType = objType.GetInterfaces().FirstOrDefault(i => i.Name.Contains("IEnumerable`"));
+
+                    if (kvpType != null)
+                    {
+                        var elementType = kvpType.GetGenericArguments()[0]; // IEnumerable only has one generic type parameter.
+                        return elementType.BaseType == null;
+                    }
                 }
             }
 
@@ -128,12 +138,16 @@
 
                 if (objType.IsGenericType)
                 {
-                    elementType = objType.GetGenericArguments()[0]; // IEnumerable only has one generic type parameter.
+                    var kvpType = objType.GetInterfaces().FirstOrDefault(i => i.Name.Contains("IEnumerable`"));
 
-                    return elementType.BaseType != null;
+                    if (kvpType != null)
+                    {
+                        elementType = kvpType.GetGenericArguments()[0]; // IEnumerable only has one generic type parameter.
+                        return elementType.BaseType != null;
+                    }
                 }
             }
-            
+
             return false;
         }
 
