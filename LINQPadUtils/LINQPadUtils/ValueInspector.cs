@@ -3,6 +3,7 @@
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Linq;
     using System.Reflection;
     using System.Web;
@@ -49,11 +50,11 @@
             return HttpUtility.HtmlEncode(displayValue);
         }
 
-        public static bool IsPrimitiveObject(object obj)
+        public static bool IsPrimitiveObject(object obj, out Type elementType)
         {
-            var objType = obj.GetType();
+            elementType = obj.GetType();
 
-            return IsPrimitiveType(objType);
+            return IsPrimitiveType(elementType);
         }
 
         static bool IsPrimitiveType(Type objType)
@@ -62,74 +63,7 @@
                 objType == typeof(string) || objType.IsPrimitive || objType == typeof(DateTime);
         }
 
-        public static bool IsPrimitiveEnumerable(object obj)
-        {
-            var objType = obj.GetType();
-
-            if (obj is IEnumerable)
-            {
-                if (objType.IsArray)
-                {
-                    var elementType = objType.GetElementType();
-                    return IsPrimitiveType(elementType);
-                }
-
-                if (objType.IsGenericType)
-                {
-                    var kvpType = objType.GetInterfaces().FirstOrDefault(i => i.Name.Contains("IEnumerable`"));
-
-                    if (kvpType != null)
-                    {
-                        var elementType = kvpType.GetGenericArguments()[0]; // IEnumerable only has one generic type parameter.
-                        return IsPrimitiveType(elementType);
-                    }
-                }
-            }
-
-            return false;
-        }
-
-        public static bool IsObjectBasedEnumerable(object obj)
-        {
-            var objType = obj.GetType();
-
-            if (obj is IEnumerable)
-            {
-                if (objType.IsArray)
-                {
-                    var elementType = objType.GetElementType();
-                    return elementType.BaseType == null;
-                }
-
-                // It could be a generic collection of System.Objects.
-                if (objType.IsGenericType)
-                {
-                    var kvpType = objType.GetInterfaces().FirstOrDefault(i => i.Name.Contains("IEnumerable`"));
-
-                    if (kvpType != null)
-                    {
-                        // IEnumerable only has one generic type parameter.
-                        var elementType = kvpType.GetGenericArguments()[0]; 
-                        return elementType.BaseType == null;
-                    }
-                }
-
-                if (obj is ArrayList || obj is Queue || obj is Stack)
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        public static bool IsStaticTypeEnumerable(object obj)
-        {
-            Type elementType;
-            return IsStaticTypeEnumerable(obj, out elementType);
-        }
-
-        public static bool IsStaticTypeEnumerable(object obj, out Type elementType)
+        public static bool IsPrimitiveEnumerable(object obj, out Type elementType)
         {
             elementType = null;
 
@@ -140,8 +74,7 @@
                 if (objType.IsArray)
                 {
                     elementType = objType.GetElementType();
-
-                    return elementType.BaseType != null;
+                    return IsPrimitiveType(elementType);
                 }
 
                 if (objType.IsGenericType)
@@ -150,17 +83,123 @@
 
                     if (kvpType != null)
                     {
-                        // IEnumerable only has one generic type parameter.
-                        elementType = kvpType.GetGenericArguments()[0]; 
-                        return elementType.BaseType != null;
+                        elementType = kvpType.GetGenericArguments()[0]; // IEnumerable only has one generic type parameter.
+                        return IsPrimitiveType(elementType);
                     }
                 }
+            }
 
-                if (obj is Hashtable || obj is SortedList)
+            return false;
+        }
+
+        //public static bool IsObjectBasedEnumerable(object obj)
+        //{
+        //    var objType = obj.GetType();
+
+        //    if (obj is IEnumerable)
+        //    {
+        //        if (objType.IsArray)
+        //        {
+        //            var elementType = objType.GetElementType();
+        //            return elementType.BaseType == null;
+        //        }
+
+        //        // It could be a generic collection of System.Objects.
+        //        if (objType.IsGenericType)
+        //        {
+        //            var kvpType = objType.GetInterfaces().FirstOrDefault(i => i.Name.Contains("IEnumerable`"));
+
+        //            if (kvpType != null)
+        //            {
+        //                // IEnumerable only has one generic type parameter.
+        //                var elementType = kvpType.GetGenericArguments()[0]; 
+        //                return elementType.BaseType == null;
+        //            }
+        //        }
+
+        //        if (obj is ArrayList || obj is Queue || obj is Stack)
+        //        {
+        //            return true;
+        //        }
+        //    }
+
+        //    return false;
+        //}
+
+        //public static bool IsStaticTypeEnumerable(object obj)
+        //{
+        //    Type elementType;
+        //    return IsStaticTypeEnumerable(obj, out elementType);
+        //}
+
+        //public static bool IsStaticTypeEnumerable(object obj, out Type elementType)
+        //{
+        //    elementType = null;
+
+        //    var objType = obj.GetType();
+
+        //    if (obj is IEnumerable)
+        //    {
+        //        if (objType.IsArray)
+        //        {
+        //            elementType = objType.GetElementType();
+
+        //            return elementType.BaseType != null;
+        //        }
+
+        //        if (objType.IsGenericType)
+        //        {
+        //            var kvpType = objType.GetInterfaces().FirstOrDefault(i => i.Name.Contains("IEnumerable`"));
+
+        //            if (kvpType != null)
+        //            {
+        //                // IEnumerable only has one generic type parameter.
+        //                elementType = kvpType.GetGenericArguments()[0]; 
+        //                return elementType.BaseType != null;
+        //            }
+        //        }
+
+        //        if (obj is Hashtable || obj is SortedList)
+        //        {
+        //            elementType = typeof(DictionaryEntry);
+        //            return true;
+        //        }
+        //    }
+
+        //    return false;
+        //}
+
+        public static bool IsEnumerableObject(object obj, out Type elementType)
+        {
+            elementType = null;
+
+            var objType = obj.GetType();
+
+            if (obj is IEnumerable)
+            {
+                if (objType.IsArray)
+                {
+                    elementType = objType.GetElementType();
+                } 
+                else if (objType.IsGenericType)
+                {
+                    var genericTypeArgument = objType.GetInterfaces().FirstOrDefault(i => i.Name.Contains("IEnumerable`"));
+
+                    Debug.Assert(genericTypeArgument != null, "A generic type argument for a generic IEnumerable was not found.");
+                    
+                    // IEnumerable only has one generic type parameter.
+                    elementType = genericTypeArgument.GetGenericArguments()[0];
+                } 
+                else if (obj is Hashtable || obj is SortedList)
                 {
                     elementType = typeof(DictionaryEntry);
-                    return true;
+                } 
+                else if (obj is ArrayList || obj is Queue || obj is Stack)
+                {
+                    elementType = typeof(object); // We might not need this.
                 }
+
+                return true;
             }
 
             return false;

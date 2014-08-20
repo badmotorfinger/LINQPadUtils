@@ -96,6 +96,7 @@ type ``When getting metadata about a enumearble type``() =
         let metadataType = metadata.GetType()
         let expectedMetadataType = typedefof<EnumerableComplexObjectTypeMetadataProvider>
         metadataType |> should equal expectedMetadataType
+        metadata.Properties |> Seq.length |> should equal 2
 
     [<Fact>]
     member public this.``and it's a generic dictionary, it should return the EnumerableComplexObjectTypeMetadataProvider``() = 
@@ -103,7 +104,9 @@ type ``When getting metadata about a enumearble type``() =
         let metadata = TypeMetadataProviderBase.GetMetadataProvider(dictionary)
         let metadataType = metadata.GetType()
         let expectedMetadataType = typedefof<EnumerableComplexObjectTypeMetadataProvider>
+
         metadataType |> should equal expectedMetadataType
+        metadata.Properties |> Seq.length |> should equal 2
 
     [<Fact>]
     member public this.``and it's a HashTable, it should return the EnumerableComplexObjectTypeMetadataProvider``() = 
@@ -111,4 +114,6 @@ type ``When getting metadata about a enumearble type``() =
         let metadata = TypeMetadataProviderBase.GetMetadataProvider(hashtable)
         let metadataType = metadata.GetType()
         let expectedMetadataType = typedefof<EnumerableObjectTypeMetadataProvider>
+        
         metadataType |> should equal expectedMetadataType
+        metadata.Properties |> Seq.length |> should equal 2

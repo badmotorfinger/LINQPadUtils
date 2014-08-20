@@ -1,11 +1,12 @@
 ﻿namespace LINQPadUtils.MetadataProviders
 {
+    using System;
     using System.Reflection;
 
     class PrimitiveTypeMetadataProvider : TypeMetadataProviderBase
     {
-        public PrimitiveTypeMetadataProvider(object obj)
-            : base(obj)
+        public PrimitiveTypeMetadataProvider(object obj, Type objType)
+            : base(obj, objType)
         {
             this.Properties = new PropertyInfo[0];
         }

@@ -16,7 +16,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>C:\Users\Vince\SkyDrive\tools\LINQPad\LINQPad Plugins\</OutputPath>
+    <OutputPath>..\..\..\..\Users\vpanuccio\OneDrive\tools\LINQPad\LINQPad Plugins\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>

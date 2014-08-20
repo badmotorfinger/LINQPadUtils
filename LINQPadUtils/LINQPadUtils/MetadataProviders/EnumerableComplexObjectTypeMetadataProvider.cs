@@ -8,7 +8,15 @@
         public EnumerableComplexObjectTypeMetadataProvider(object obj, Type elementType)
             : base(obj)
         {
-            this.Properties = elementType.GetProperties();
+
+            if (elementType.BaseType != null)
+            {
+                this.Properties = elementType.GetProperties();
+            }
+            else
+            {
+                this.Properties = new PropertyInfo[0];
+            }
         }
 
         public override bool IsEnumerableObject

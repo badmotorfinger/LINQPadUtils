@@ -1,8 +1,6 @@
 ﻿namespace LINQPadUtils.MetadataProviders
 {
     using System;
-    using System.Collections;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
     using System.Runtime.CompilerServices;
@@ -10,64 +8,45 @@
     public abstract class TypeMetadataProviderBase
     {
         protected TypeMetadataProviderBase(object obj)
+            : this(obj, obj.GetType()) { }
+
+        protected TypeMetadataProviderBase(object obj, Type objType)
         {
             this.SourceObject = obj;
-            this.SourceObjectType = obj.GetType();
+            this.SourceObjectType = objType;
         }
 
         public static TypeMetadataProviderBase GetMetadataProvider(object obj)
         {
-            if (ValueInspector.IsPrimitiveObject(obj))
+            Type elementType;
+
+            if (ValueInspector.IsPrimitiveObject(obj, out elementType))
             {
-                return new PrimitiveTypeMetadataProvider(obj);
+                return new PrimitiveTypeMetadataProvider(obj, elementType);
             }
             
-            if (obj is System.Collections.IEnumerable)
+            if (ValueInspector.IsPrimitiveEnumerable(obj, out elementType))
             {
-                if (ValueInspector.IsPrimitiveEnumerable(obj))
-                {
-                    return new EnumerablePrimitiveTypeMetadataProvider(obj);
-                }
-
-                if (ValueInspector.IsObjectBasedEnumerable(obj))
-                {
-                    return new EnumerableObjectTypeMetadataProvider(obj);
-                }
-
-                Type elementType;
-                if (ValueInspector.IsStaticTypeEnumerable(obj, out elementType))
-                {
-                    return new EnumerableComplexObjectTypeMetadataProvider(obj, elementType);
-                }
-
-                throw new ApplicationException("Could not determine enumerable type.");
+                return new EnumerablePrimitiveTypeMetadataProvider(obj)
+                       {
+                           IsPrimitiveElement = true,
+                           IsEnumerable = true
+                       };
             }
+            
+            if (ValueInspector.IsEnumerableObject(obj, out elementType))
+            {
+                return new EnumerableComplexObjectTypeMetadataProvider(obj, elementType);
+            }           
 
             return new ComplexTypeMetadataProvider(obj);
         }
         
         public Object SourceObject { get; private set; }
 
-        public bool IsPrimitiveElement
-        {
-            get
-            {
-                if (IsEnumerable && ValueInspector.IsPrimitiveEnumerable(SourceObject))
-                {
-                    return true;
-                }
+        public bool IsPrimitiveElement { get; protected set; }
 
-                return ValueInspector.IsPrimitiveObject(this.SourceObject);
-            }
-        }
-
-        public bool IsEnumerable
-        {
-            get
-            {
-                return SourceObject is System.Collections.IEnumerable;
-            }
-        }
+        public bool IsEnumerable { get; protected set; }
 
         public abstract bool IsEnumerableObject { get; }
 
