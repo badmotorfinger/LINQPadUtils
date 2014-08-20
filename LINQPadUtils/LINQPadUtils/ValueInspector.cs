@@ -6,6 +6,7 @@
     using System.Linq;
     using System.Reflection;
     using System.Web;
+    using System.Windows.Media.Animation;
 
     using LINQPad;
 
@@ -92,11 +93,6 @@
         {
             var objType = obj.GetType();
 
-            if (obj is Hashtable)
-            {
-                return true;
-            }
-
             if (obj is IEnumerable)
             {
                 if (objType.IsArray)
@@ -105,15 +101,22 @@
                     return elementType.BaseType == null;
                 }
 
+                // It could be a generic collection of System.Objects.
                 if (objType.IsGenericType)
                 {
                     var kvpType = objType.GetInterfaces().FirstOrDefault(i => i.Name.Contains("IEnumerable`"));
 
                     if (kvpType != null)
                     {
-                        var elementType = kvpType.GetGenericArguments()[0]; // IEnumerable only has one generic type parameter.
+                        // IEnumerable only has one generic type parameter.
+                        var elementType = kvpType.GetGenericArguments()[0]; 
                         return elementType.BaseType == null;
                     }
+                }
+
+                if (obj is ArrayList || obj is Queue || obj is Stack)
+                {
+                    return true;
                 }
             }
 
@@ -147,9 +150,16 @@
 
                     if (kvpType != null)
                     {
-                        elementType = kvpType.GetGenericArguments()[0]; // IEnumerable only has one generic type parameter.
+                        // IEnumerable only has one generic type parameter.
+                        elementType = kvpType.GetGenericArguments()[0]; 
                         return elementType.BaseType != null;
                     }
+                }
+
+                if (obj is Hashtable || obj is SortedList)
+                {
+                    elementType = typeof(DictionaryEntry);
+                    return true;
                 }
             }
 

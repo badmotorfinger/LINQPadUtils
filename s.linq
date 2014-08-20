@@ -72,13 +72,13 @@ void Main()
     //new[] {1,2,3,4}.DumpBrowser();
     //new List<string>() { "yer", "ber" }.DumpBrowser();
     //new { Foo = "Foo", Bar = 123, Baz = 12M }.DumpBrowser();
-    //new { Foo = "Foo", Bar = 123, Baz = 12M }.Dump();
     //new Foo<int>() { Baza = 123, Property2 = "asdad"}.DumpBrowser();
-    //new Foo<int>() { Baza = 123, Property2 = "asdad"}.Dump();
-    //new object[] { 1,"st",3}.DumpBrowser();
-    //new object[] { 1,"st",3}.Dump();
-    //new [] { new Baz { Foo = 7, Bar = 4 }, new Baz { Foo = 1, Bar = 2 } }.Dump();
-    new [] { new Baz { Foo = 7, Bar = 4 }, new Baz { Foo = 1, Bar = 2 } }.DumpBrowser();
+	//new object[] { 1,"st",3}.DumpBrowser();
+    //new [] { new Baz { Foo = 7, Bar = 4 }, new Baz { Foo = 1, Bar = 2 } }.DumpBrowser();
+   	//new Dictionary<int, string>() { {1, "12"}, {10, "123"}, }.DumpBrowser();
+	//new Hashtable() { {1, "12"}, {10, "123"}, }.DumpBrowser();
+		
+//   	new Hashtable() { {1, "12"}, {10, "123"}, }.DumpBrowser();
    
 //    new Exception("hello").Dump();
 //    new Exception("hello").DumpBrowser();
