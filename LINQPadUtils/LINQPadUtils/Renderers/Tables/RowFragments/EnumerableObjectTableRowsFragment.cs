@@ -26,18 +26,18 @@ namespace LINQPadUtils.Fragments
 
                     var itemMetadata = TypeMetadataProviderBase.GetMetadataProvider(item);
 
-                    if (itemMetadata.Properties.Any())
-                    {
-                        foreach (var propertyInfo in itemMetadata.Properties)
-                        {
-                            var column = String.Format(
-                                "<th title='{0}'>{1}</th>",
-                                propertyInfo.PropertyType,
-                                propertyInfo.Name);
+                    //if (itemMetadata.Properties.Any())
+                    //{
+                    //    foreach (var propertyInfo in itemMetadata.Properties)
+                    //    {
+                    //        var column = String.Format(
+                    //            "<th title='{0}'>{1}</th>",
+                    //            propertyInfo.PropertyType,
+                    //            propertyInfo.Name);
 
-                            rowDataSb.Append(column);
-                        }
-                    }
+                    //        rowDataSb.Append(column);
+                    //    }
+                    //}
 
                     string renderedValue;
                     if (itemMetadata.IsPrimitiveElement)

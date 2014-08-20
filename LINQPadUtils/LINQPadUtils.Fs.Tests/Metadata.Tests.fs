@@ -113,7 +113,8 @@ type ``When getting metadata about a enumearble type``() =
         let hashtable = new System.Collections.Hashtable()
         let metadata = TypeMetadataProviderBase.GetMetadataProvider(hashtable)
         let metadataType = metadata.GetType()
-        let expectedMetadataType = typedefof<EnumerableObjectTypeMetadataProvider>
+        let expectedMetadataType = typedefof<EnumerableComplexObjectTypeMetadataProvider>
         
         metadataType |> should equal expectedMetadataType
         metadata.Properties |> Seq.length |> should equal 2
+

@@ -22,9 +22,12 @@
 
             if (ValueInspector.IsPrimitiveObject(obj, out elementType))
             {
-                return new PrimitiveTypeMetadataProvider(obj, elementType);
+                return new PrimitiveTypeMetadataProvider(obj, elementType)
+                {
+                    IsPrimitiveElement = true
+                };
             }
-            
+
             if (ValueInspector.IsPrimitiveEnumerable(obj, out elementType))
             {
                 return new EnumerablePrimitiveTypeMetadataProvider(obj)
@@ -33,24 +36,33 @@
                            IsEnumerable = true
                        };
             }
-            
-            if (ValueInspector.IsEnumerableObject(obj, out elementType))
+
+            if (ValueInspector.IsEnumerableOfKnownType(obj, out elementType))
             {
-                return new EnumerableComplexObjectTypeMetadataProvider(obj, elementType);
-            }           
+                return new EnumerableComplexObjectTypeMetadataProvider(obj, elementType)
+                {
+                    IsEnumerable = true
+                };
+            }
+
+            if (ValueInspector.IsObjectBasedEnumerable(obj))
+            {
+                return new EnumerableObjectTypeMetadataProvider(obj)
+                {
+                    IsEnumerable = true
+                };
+            }
 
             return new ComplexTypeMetadataProvider(obj);
         }
-        
+
         public Object SourceObject { get; private set; }
 
         public bool IsPrimitiveElement { get; protected set; }
 
         public bool IsEnumerable { get; protected set; }
 
-        public abstract bool IsEnumerableObject { get; }
-
-        public abstract  bool IsEnumerableStaticType { get; }
+        public abstract bool IsEnumerableOfKnownType { get; }
 
         public bool IsAnonymousType
         {

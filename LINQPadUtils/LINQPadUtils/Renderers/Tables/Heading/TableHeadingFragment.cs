@@ -18,7 +18,7 @@
                 return String.Empty;
             }
 
-            if (base.Metadata.IsEnumerable)
+            if (base.Metadata.IsEnumerableOfKnownType)
             {
                 var stringBuilder = new StringBuilder();
 

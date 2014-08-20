@@ -11,11 +11,13 @@
         {
             var tableBuilder = new TableBuilder(base.Metadata);
 
-            FragmentBase rowRenderer = base.Metadata.IsEnumerableObject
-                ? new EnumerableObjectTableRowsFragment(base.Metadata)
-                : base.Metadata.IsEnumerableStaticType
-                    ? new EnumerableComplexObjectTableRowsFragment(base.Metadata) as FragmentBase
-                    : new PrimitiveEnumerableTableRowsFragment(base.Metadata);
+            FragmentBase rowRenderer = base.Metadata.IsEnumerableOfKnownType
+                ? new EnumerableComplexObjectTableRowsFragment(base.Metadata)
+                : base.Metadata.IsEnumerable && base.Metadata.IsPrimitiveElement
+                    ? new PrimitiveEnumerableTableRowsFragment(base.Metadata) 
+                    : base.Metadata.IsEnumerable
+                        ? new EnumerableObjectTableRowsFragment(base.Metadata) as FragmentBase
+                        : new ComplexObjectTableRowsFragment(base.Metadata);
 
             tableBuilder.AddFragment(new FragmentBase[]
             {

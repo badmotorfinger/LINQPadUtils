@@ -11,15 +11,7 @@
             this.Properties = new PropertyInfo[0];
         }
 
-        public override bool IsEnumerableObject
-        {
-            get
-            {
-                return false;
-            }
-        }
-
-        public override bool IsEnumerableStaticType
+        public override bool IsEnumerableOfKnownType
         {
             get
             {

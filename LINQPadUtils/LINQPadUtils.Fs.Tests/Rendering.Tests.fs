@@ -27,11 +27,16 @@ type ``When rendering a value to the screen``() =
         let expectedTag = "<xx>yy</xx>"
         newTag |> should equal expectedTag
 
+    [<Fact>]
+    member public this.``and the value is a null, return an empty string``() = 
+        let value = ValueInspector.GetDisplayValue(null)
+        value |> should equal String.Empty
+
 type ``When rendering a table``() = 
     
     [<Fact>]
     member public this.``and metadata contains no properties, do not render headings``() = 
-        let metadata = new PrimitiveTypeMetadataProvider("foo")
+        let metadata = new PrimitiveTypeMetadataProvider("foo", typedefof<string>)
         let tableFragment = new EnumerableTypeTableHeadingFragment(metadata)
         let result = tableFragment.Render()
         result |> should equal String.Empty
