@@ -15,8 +15,7 @@
             if (!base.Metadata.IsEnumerable)
             {
                 return String.Format(
-                    "<tr id='sum2'><td colspan='{0}' class='summary'>{1}</td></tr>",
-                    this.Metadata.Properties.Length,
+                    "<tr id='sum2'><td colspan='2' class='summary'>{0}</td></tr>",
                     this.Metadata.SourceObject);
             }
 

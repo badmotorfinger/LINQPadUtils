@@ -67,10 +67,7 @@ class Baz {
     public object Bar { get; set; }
 }
 void Main()
-{
-//    var x = new HttpClient();
-//    x.DumpBrowser();
-    
+{   
     //123.DumpBrowser();
     //new[] {1,2,3,4}.DumpBrowser();
     //new List<string>() { "yer", "ber" }.DumpBrowser();
@@ -80,11 +77,16 @@ void Main()
     //new [] { new Baz { Foo = 7, Bar = 4 }, new Baz { Foo = 1, Bar = 2 } }.DumpBrowser();
    	//new Dictionary<int, string>() { {1, "12"}, {10, "123"}, }.DumpBrowser();
 	//new Hashtable() { {1, "12"}, {10, "123"}, }.DumpBrowser();
+    //new [] { new Baz { Foo = 7, Bar = 4 }, new Baz { Foo = 1, Bar = new Foo<DateTime> { Baza = DateTime.Now, Property2 = "yer" } } }.DumpBrowser();
 	
-    //new object[] { new Baz { Foo = 7, Bar = 4 }, new { Foo = "Foo", Bar = 123, Baz = 12M } }.DumpBrowser();
-    
-    new [] { new Baz { Foo = 7, Bar = 4 }, new Baz { Foo = 1, Bar = new Foo<DateTime> { Baza = DateTime.Now, Property2 = "yer" } } }.DumpBrowser();
-    
+	new object[] { new Baz { Foo = 7, Bar = 4 }, new { Foo = "Foo", Bar = 123, Baz = 12M } }.DumpBrowser();
+	new object[] { new Baz { Foo = 7, Bar = 4 }, new { Foo = "Foo", Bar = 123, Baz = 12M } }.Dump();
+
+//var al = new ArrayList();al.Add("12");al.Add(new{ Yer = 13});al.DumpBrowser();
+//al.Dump();
+//new Hashtable() { }.DumpBrowser(); // hash table of complex objects
+//    var x = new HttpClient();
+//    x.DumpBrowser();  
 //    new Exception("hello").Dump();
 //    new Exception("hello").DumpBrowser();
 }

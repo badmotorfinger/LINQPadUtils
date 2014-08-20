@@ -1,6 +1,7 @@
 ﻿namespace LINQPadUtils.Fragments
 {
     using LINQPadUtils.MetadataProviders;
+    using LINQPadUtils.Renderers.Tables.RowFragments;
 
     class EnumerableTypeFragment : FragmentBase
     {

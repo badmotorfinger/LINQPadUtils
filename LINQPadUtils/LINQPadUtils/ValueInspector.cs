@@ -126,7 +126,7 @@
                         return elementType.BaseType == null;
                     }
                 }
-                throw new ApplicationException("Unknown enumerable type.");
+                return true;
             }
 
             return false;
@@ -207,7 +207,7 @@
                         elementType = t;
                     }
                 }
-                else if (obj is Hashtable || obj is SortedList)
+                else if (obj is IDictionary)
                 {
                     elementType = typeof(DictionaryEntry);
                 }

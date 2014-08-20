@@ -58,6 +58,9 @@
       <Name>LINQPadUtils</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="HTMLPage1.html" />
+  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

@@ -7,6 +7,7 @@ namespace LINQPadUtils.Fragments
 
     using LINQPadUtils.Markup;
     using LINQPadUtils.MetadataProviders;
+    using LINQPadUtils.Renderers;
 
     class EnumerableComplexObjectTableRowsFragment : FragmentBase
     {
@@ -28,7 +29,7 @@ namespace LINQPadUtils.Fragments
                     {
                         object value = propertyInfo.GetValue(item);
 
-                        string renderedValue = ValueInspector.GetDisplayValue(value, propertyInfo.PropertyType);
+                        string renderedValue = ValueDisplay.DisplayValue(value);
 
                         var newTag = HtmlTag.WrapValue("td", renderedValue);
 

@@ -18,7 +18,7 @@ namespace LINQPadUtils.Fragments
             {
                 var tableHead = new StringBuilder(LinqPadUtilResources.ObjectResultTableHead);
 
-                tableHead.Replace("{colspan}", this.Metadata.Properties.Length.ToString(CultureInfo.InvariantCulture));
+                tableHead.Replace("{colspan}", "2");
 
                 if (base.Metadata.IsAnonymousType)
                 {
