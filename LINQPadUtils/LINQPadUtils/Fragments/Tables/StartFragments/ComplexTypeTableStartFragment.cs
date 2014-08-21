@@ -1,8 +1,6 @@
 namespace LINQPadUtils.Fragments
 {
     using System;
-    using System.Globalization;
-    using System.Linq;
     using System.Text;
 
     using LINQPadUtils.MetadataProviders;
@@ -10,7 +8,9 @@ namespace LINQPadUtils.Fragments
     class ComplexTypeTableStartFragment : FragmentBase
     {
         public ComplexTypeTableStartFragment(TypeMetadataProviderBase metadata)
-            : base(metadata) { }
+            : base(metadata)
+        {
+        }
 
         public override string Render()
         {

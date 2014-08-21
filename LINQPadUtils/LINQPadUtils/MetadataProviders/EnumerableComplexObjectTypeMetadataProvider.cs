@@ -8,7 +8,6 @@
         public EnumerableComplexObjectTypeMetadataProvider(object obj, Type elementType)
             : base(obj)
         {
-
             if (elementType.BaseType != null)
             {
                 this.Properties = elementType.GetProperties();

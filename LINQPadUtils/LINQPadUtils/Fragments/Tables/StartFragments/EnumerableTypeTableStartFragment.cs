@@ -1,12 +1,9 @@
-namespace LINQPadUtils.Fragments
+namespace LINQPadUtils.Fragments.Tables.StartFragments
 {
     using System;
     using System.Collections;
     using System.Globalization;
-    using System.Linq;
     using System.Text;
-
-    using LINQPad;
 
     using LINQPadUtils.MetadataProviders;
 
@@ -27,21 +24,24 @@ namespace LINQPadUtils.Fragments
 
                 if (base.Metadata.SourceObject is ICollection)
                 {
-                    count = ((ICollection)Metadata.SourceObject).Count;
+                    count = ((ICollection)this.Metadata.SourceObject).Count;
                 }
                 else
                 {
-                    while (((IEnumerable)base.Metadata.SourceObject).GetEnumerator().MoveNext()) count++;
+                    while (((IEnumerable)base.Metadata.SourceObject).GetEnumerator().MoveNext())
+                    {
+                        count++;
+                    }
                 }
 
-                tableHead.Replace("{colspan}", this.Metadata.Properties.Length.ToString())
-                         .Replace("{typename}", base.GetTypeFriendlyDisplayText(base.Metadata.SourceObjectType))
-                         .Replace("{itemcount}", count.ToString(CultureInfo.InvariantCulture));
+                tableHead.Replace("{colspan}", this.Metadata.Properties.Length.ToString(CultureInfo.InvariantCulture))
+                    .Replace("{typename}", base.GetTypeFriendlyDisplayText(base.Metadata.SourceObjectType))
+                    .Replace("{itemcount}", count.ToString(CultureInfo.InvariantCulture));
 
                 return tableHead.ToString();
             }
 
             throw new ApplicationException("This fragment can only render IEnumerable.");
-        } 
+        }
     }
 }

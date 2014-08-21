@@ -7,13 +7,13 @@
     using System.Linq;
     using System.Reflection;
     using System.Web;
-    using System.Windows.Media.Animation;
 
     using LINQPad;
 
     public static class ValueInspector
     {
-        static readonly Lazy<Type> RawHtmlType = new Lazy<Type>(() => Assembly.GetAssembly(typeof(ExecutionEngine)).GetType("LINQPad.ObjectGraph.RawHtml"));
+        static readonly Lazy<Type> RawHtmlType =
+            new Lazy<Type>(() => Assembly.GetAssembly(typeof(ExecutionEngine)).GetType("LINQPad.ObjectGraph.RawHtml"));
 
         static Func<object, PropertyInfo[]> objectHeadingsFunc = GetHeadingsForType();
 
@@ -62,6 +62,13 @@
 
         public static bool IsPrimitiveObject(object obj, out Type elementType)
         {
+            elementType = null;
+
+            if (obj == null)
+            {
+                return true;
+            }
+
             elementType = obj.GetType();
 
             return IsPrimitiveType(elementType);
@@ -93,7 +100,8 @@
 
                     if (kvpType != null)
                     {
-                        elementType = kvpType.GetGenericArguments()[0]; // IEnumerable only has one generic type parameter.
+                        elementType = kvpType.GetGenericArguments()[0];
+                            // IEnumerable only has one generic type parameter.
                         return IsPrimitiveType(elementType);
                     }
                 }
@@ -191,13 +199,15 @@
                     {
                         elementType = elementTypeTmp;
                     }
-
                 }
                 else if (objType.IsGenericType)
                 {
-                    var genericTypeArgument = objType.GetInterfaces().FirstOrDefault(i => i.Name.Contains("IEnumerable`"));
+                    var genericTypeArgument =
+                        objType.GetInterfaces().FirstOrDefault(i => i.Name.Contains("IEnumerable`"));
 
-                    Debug.Assert(genericTypeArgument != null, "A generic type argument for a generic IEnumerable was not found.");
+                    Debug.Assert(
+                        genericTypeArgument != null,
+                        "A generic type argument for a generic IEnumerable was not found.");
 
                     // IEnumerable only has one generic type parameter.
                     var t = genericTypeArgument.GetGenericArguments()[0];

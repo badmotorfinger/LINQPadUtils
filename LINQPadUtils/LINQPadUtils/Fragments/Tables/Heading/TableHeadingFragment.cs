@@ -9,7 +9,9 @@
     class EnumerableTypeTableHeadingFragment : FragmentBase
     {
         public EnumerableTypeTableHeadingFragment(TypeMetadataProviderBase metadata)
-            : base(metadata) { }
+            : base(metadata)
+        {
+        }
 
         public override string Render()
         {

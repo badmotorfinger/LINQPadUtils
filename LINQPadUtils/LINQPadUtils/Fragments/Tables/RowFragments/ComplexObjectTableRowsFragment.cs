@@ -1,13 +1,16 @@
 namespace LINQPadUtils.Fragments
 {
     using System.Text;
+
     using LINQPadUtils.Markup;
     using LINQPadUtils.MetadataProviders;
 
     class ComplexObjectTableRowsFragment : FragmentBase
     {
         public ComplexObjectTableRowsFragment(TypeMetadataProviderBase metadata)
-            : base(metadata) { }
+            : base(metadata)
+        {
+        }
 
         public override string Render()
         {

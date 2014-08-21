@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace LINQPadUtils.Markup
+﻿namespace LINQPadUtils.Markup
 {
-    using System.Runtime.InteropServices.WindowsRuntime;
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
 
     public class StringJoiner
     {
-        internal StringBuilder document;
+        readonly internal StringBuilder Document;
 
         readonly string footer;
 
@@ -18,35 +14,35 @@ namespace LINQPadUtils.Markup
 
         public StringJoiner()
         {
-            this.document = new StringBuilder();
+            this.Document = new StringBuilder();
             this.footer = String.Empty;
         }
 
         public StringJoiner(string head, string foot)
         {
-            this.document = new StringBuilder(head);
+            this.Document = new StringBuilder(head);
             this.footer = foot;
         }
 
         public void AppendFunc(Func<string> renderFunc)
         {
-            renderFuncs.Add(renderFunc);
+            this.renderFuncs.Add(renderFunc);
         }
 
         public void Append(string s)
         {
-            document.Append(s);
+            this.Document.Append(s);
         }
 
         public override string ToString()
         {
-            foreach (var renderFunc in renderFuncs)
+            foreach (var renderFunc in this.renderFuncs)
             {
-                document.Append(renderFunc());
+                this.Document.Append(renderFunc());
             }
 
-            return document.Append(footer)
-                           .ToString();
+            return this.Document.Append(this.footer)
+                .ToString();
         }
     }
 }

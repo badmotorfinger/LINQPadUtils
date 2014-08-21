@@ -1,6 +1,5 @@
 ﻿namespace LINQPadUtils.MetadataProviders
 {
-    using System;
     using System.Reflection;
 
     class EnumerablePrimitiveTypeMetadataProvider : TypeMetadataProviderBase

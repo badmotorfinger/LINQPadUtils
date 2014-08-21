@@ -1,8 +1,5 @@
 ﻿namespace LINQPadUtils.MetadataProviders
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using System.Reflection;
 
     class ComplexTypeMetadataProvider : TypeMetadataProviderBase

@@ -6,7 +6,9 @@
     class PrimitiveTypeFragment : FragmentBase
     {
         public PrimitiveTypeFragment(TypeMetadataProviderBase metadata)
-            : base(metadata) { }
+            : base(metadata)
+        {
+        }
 
         public override string Render()
         {

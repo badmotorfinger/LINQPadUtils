@@ -1,12 +1,12 @@
 ﻿namespace LINQPadUtils.Markup
 {
     using System;
-    using System.Reflection;
-    using System.Web;
 
     public class HtmlTag : IEquatable<HtmlTag>
     {
-        HtmlTag() { }
+        HtmlTag()
+        {
+        }
 
         public string TagName { private get; set; }
 
@@ -19,16 +19,16 @@
 
         public override string ToString()
         {
-            return String.Format("<{0}>{1}</{0}>", TagName, TagDisplayText);
+            return String.Format("<{0}>{1}</{0}>", this.TagName, this.TagDisplayText);
         }
 
         public static HtmlTag WrapValue(string tag, string value)
         {
             return new HtmlTag
-            {
-                TagDisplayText = value,
-                TagName = tag
-            };
+                   {
+                       TagDisplayText = value,
+                       TagName = tag
+                   };
         }
     }
 }

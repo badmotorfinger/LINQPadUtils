@@ -1,14 +1,15 @@
 ﻿namespace LINQPadUtils.Fragments
 {
     using System;
-    using System.Linq;
 
     using LINQPadUtils.MetadataProviders;
 
     class ComplexTypeTableHeadingFragment : FragmentBase
     {
         public ComplexTypeTableHeadingFragment(TypeMetadataProviderBase metadata)
-            : base(metadata) { }
+            : base(metadata)
+        {
+        }
 
         public override string Render()
         {

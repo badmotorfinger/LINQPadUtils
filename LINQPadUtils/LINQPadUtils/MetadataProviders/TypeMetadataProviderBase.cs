@@ -8,7 +8,9 @@
     public abstract class TypeMetadataProviderBase
     {
         protected TypeMetadataProviderBase(object obj)
-            : this(obj, obj.GetType()) { }
+            : this(obj, obj.GetType())
+        {
+        }
 
         protected TypeMetadataProviderBase(object obj, Type objType)
         {
@@ -23,9 +25,9 @@
             if (ValueInspector.IsPrimitiveObject(obj, out elementType))
             {
                 return new PrimitiveTypeMetadataProvider(obj, elementType)
-                {
-                    IsPrimitiveElement = true
-                };
+                       {
+                           IsPrimitiveElement = true
+                       };
             }
 
             if (ValueInspector.IsPrimitiveEnumerable(obj, out elementType))
@@ -40,17 +42,17 @@
             if (ValueInspector.IsEnumerableOfKnownType(obj, out elementType))
             {
                 return new EnumerableComplexObjectTypeMetadataProvider(obj, elementType)
-                {
-                    IsEnumerable = true
-                };
+                       {
+                           IsEnumerable = true
+                       };
             }
 
             if (ValueInspector.IsObjectBasedEnumerable(obj))
             {
                 return new EnumerableObjectTypeMetadataProvider(obj)
-                {
-                    IsEnumerable = true
-                };
+                       {
+                           IsEnumerable = true
+                       };
             }
 
             return new ComplexTypeMetadataProvider(obj);
@@ -68,8 +70,8 @@
         {
             get
             {
-                return SourceObjectType.Name.Contains("AnonymousType")
-                       && SourceObjectType.CustomAttributes.Any(
+                return this.SourceObjectType.Name.Contains("AnonymousType")
+                       && this.SourceObjectType.CustomAttributes.Any(
                            attr => attr.AttributeType == typeof(CompilerGeneratedAttribute));
             }
         }

@@ -1,13 +1,15 @@
 ﻿// ReSharper disable CheckNamespace
+
 namespace LINQPad
 // ReSharper restore CheckNamespace
 {
+    using System;
     using System.Windows.Controls;
 
     using LINQPadUtils;
+    using LINQPadUtils.Fragments;
     using LINQPadUtils.Markup;
     using LINQPadUtils.MetadataProviders;
-    using LINQPadUtils.Fragments;
 
     // ReSharper disable UnusedMember.Global
     public static partial class LinqPadExtensions
@@ -31,27 +33,21 @@ namespace LINQPad
 
             document.Append(result);
 
-            document.document.Replace("{script}", LinqPadUtilResources.jquery_1_11_1_min)
-                             .Replace("{tablesorter}", LinqPadUtilResources.jquery_tablesorter_min)
-                             .Replace("{firebug}", LinqPadUtilResources.firebug_lite_compressed);
+            document.Document.Replace("{script}", LinqPadUtilResources.jquery_1_11_1_min)
+                .Replace("{tablesorter}", LinqPadUtilResources.jquery_tablesorter_min)
+                .Replace("{firebug}", LinqPadUtilResources.firebug_lite_compressed);
 
             var webBrowser = new WebBrowser();
 
-            webBrowser.LoadCompleted += webBrowser_LoadCompleted;
             webBrowser.NavigateToString(document.ToString());
 
             PanelManager.DisplayWpfElement(webBrowser);
 
             return obj;
         }
-
-        static void webBrowser_LoadCompleted(object sender, System.Windows.Navigation.NavigationEventArgs e)
-        {
-            var browser = sender as WebBrowser;
-
-            var jsCode = "alert('hello world from injected code');";
-            
-            //WebBrowser..Document.InvokeScript("execScript", new Object[] { jsCode, "JavaScript" });
-        }
     }
 }
+//var browser = sender as WebBrowser;
+//            dynamic doc = browser.Document;
+//            dynamic dEl = doc.documentElement;
+//dEl.innerHTML

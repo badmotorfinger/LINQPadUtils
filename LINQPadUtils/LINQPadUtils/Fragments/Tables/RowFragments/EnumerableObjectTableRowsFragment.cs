@@ -7,12 +7,13 @@ namespace LINQPadUtils.Renderers.Tables.RowFragments
     using LINQPadUtils.Fragments;
     using LINQPadUtils.Markup;
     using LINQPadUtils.MetadataProviders;
-    using LINQPadUtils.Renderers;
 
     class EnumerableObjectTableRowsFragment : FragmentBase
     {
         public EnumerableObjectTableRowsFragment(TypeMetadataProviderBase metadata)
-            : base(metadata) { }
+            : base(metadata)
+        {
+        }
 
         public override string Render()
         {
@@ -36,9 +37,10 @@ namespace LINQPadUtils.Renderers.Tables.RowFragments
             }
             else
             {
-                throw new InvalidOperationException("Cannot render rows for a type which does not implement IEnumerable.");
+                throw new InvalidOperationException(
+                    "Cannot render rows for a type which does not implement IEnumerable.");
             }
-            
+
             return rowDataSb.ToString();
         }
     }

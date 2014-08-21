@@ -1,11 +1,10 @@
 ﻿namespace LINQPadUtils
 {
     using System.Collections.Generic;
-    using System.Windows.Documents;
 
+    using LINQPadUtils.Fragments;
     using LINQPadUtils.Markup;
     using LINQPadUtils.MetadataProviders;
-    using LINQPadUtils.Fragments;
 
     class TableBuilder
     {
@@ -16,7 +15,9 @@
         readonly List<FragmentBase> fragments = new List<FragmentBase>();
 
         public TableBuilder(TypeMetadataProviderBase metadata)
-            : this(metadata, new StringJoiner()) { }
+            : this(metadata, new StringJoiner())
+        {
+        }
 
         public TableBuilder(TypeMetadataProviderBase metadata, StringJoiner stringJoiner)
         {
@@ -31,12 +32,12 @@
 
         public override string ToString()
         {
-            foreach (var renderer in fragments)
+            foreach (var renderer in this.fragments)
             {
-                stringJoiner.AppendFunc(renderer.Render);
+                this.stringJoiner.AppendFunc(renderer.Render);
             }
 
-            return stringJoiner.ToString();
+            return this.stringJoiner.ToString();
         }
     }
 }

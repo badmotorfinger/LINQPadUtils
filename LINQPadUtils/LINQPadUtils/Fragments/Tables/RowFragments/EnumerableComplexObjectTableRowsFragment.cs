@@ -2,7 +2,6 @@ namespace LINQPadUtils.Fragments
 {
     using System;
     using System.Collections;
-    using System.Linq;
     using System.Text;
 
     using LINQPadUtils.Markup;
@@ -12,7 +11,9 @@ namespace LINQPadUtils.Fragments
     class EnumerableComplexObjectTableRowsFragment : FragmentBase
     {
         public EnumerableComplexObjectTableRowsFragment(TypeMetadataProviderBase metadata)
-            : base(metadata) { }
+            : base(metadata)
+        {
+        }
 
         public override string Render()
         {
@@ -34,16 +35,17 @@ namespace LINQPadUtils.Fragments
                         var newTag = HtmlTag.WrapValue("td", renderedValue);
 
                         rowDataSb.Append(newTag);
-                    } 
+                    }
 
                     rowDataSb.Append("</tr>");
                 }
             }
             else
             {
-                throw new InvalidOperationException("Cannot render rows for a type which does not implement IEnumerable.");
+                throw new InvalidOperationException(
+                    "Cannot render rows for a type which does not implement IEnumerable.");
             }
-            
+
             return rowDataSb.ToString();
         }
     }

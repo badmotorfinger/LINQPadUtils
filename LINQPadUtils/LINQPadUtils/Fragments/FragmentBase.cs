@@ -3,7 +3,6 @@
     using System;
     using System.Linq;
 
-    using LINQPadUtils.Markup;
     using LINQPadUtils.MetadataProviders;
 
     abstract class FragmentBase
