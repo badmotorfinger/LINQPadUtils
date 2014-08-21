@@ -33,6 +33,7 @@
                     stringBuilder.Append(heading);
                 }
 
+                stringBuilder.Append("</tr></thead>");
                 return stringBuilder.ToString();
             }
 

@@ -75,12 +75,12 @@ void Main()
     //new Foo<int>() { Baza = 123, Property2 = "asdad"}.DumpBrowser();
 	//new object[] { 1,"st",3}.DumpBrowser();
     //new [] { new Baz { Foo = 7, Bar = 4 }, new Baz { Foo = 1, Bar = 2 } }.DumpBrowser();
-   	//new Dictionary<int, string>() { {1, "12"}, {10, "123"}, }.DumpBrowser();
+   	new Dictionary<int, string>() { {1, "12"}, {10, "123"}, }.DumpBrowser();
 	//new Hashtable() { {1, "12"}, {10, "123"}, }.DumpBrowser();
     //new [] { new Baz { Foo = 7, Bar = 4 }, new Baz { Foo = 1, Bar = new Foo<DateTime> { Baza = DateTime.Now, Property2 = "yer" } } }.DumpBrowser();
 	
-	new object[] { new Baz { Foo = 7, Bar = 4 }, new { Foo = "Foo", Bar = 123, Baz = 12M } }.DumpBrowser();
-	new object[] { new Baz { Foo = 7, Bar = 4 }, new { Foo = "Foo", Bar = 123, Baz = 12M } }.Dump();
+	//new object[] { new Baz { Foo = 7, Bar = 4 }, new { Foo = "Foo", Bar = 123, Baz = 12M } }.DumpBrowser();
+	//new object[] { new Baz { Foo = 7, Bar = 4 }, new { Foo = "Foo", Bar = 123, Baz = 12M } }.Dump();
 
 //var al = new ArrayList();al.Add("12");al.Add(new{ Yer = 13});al.DumpBrowser();
 //al.Dump();
