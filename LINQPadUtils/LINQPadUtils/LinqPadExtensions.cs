@@ -4,11 +4,11 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
-    using System.Runtime.InteropServices;
-    using System.Web;
     using System.Web.Script.Serialization;
 
-    public static class LinqPadExtensions
+    using LINQPadUtils;
+
+    public static partial class LinqPadExtensions
     {
         const string IndentString = "  ";
 
@@ -47,58 +47,58 @@
             return ReflectOnType(obj, depth, 0);
         }
 
-        static object ReflectOnType(object obj, int depth, int currentDepth)
+        static IEnumerable<object> ReflectOnType(object obj, int depth, int currentDepth)
         {
             PropertyInfo[] properties = obj.GetType().GetProperties((BindingFlags)~0);
 
             return
-                 new[]
+                new[]
                 {
-                    new
+                    new ReflectedResult
                     {
-                        Accessibility = (object)String.Empty,
-                        Name = String.Empty,
-                        Value = Util.RawHtml(@"<span style='color: Green;font-weight:Bold;'>" + HttpUtility.HtmlEncode(obj) + @"</span>")
+                        Accessibility = (object)"",
+                        Name = obj.GetType().ToString(),
+                        Value = (object)obj.ToString()
                     }
                 }
-                .Union(
-                    from p in properties
-                    let isIndexed = p.GetIndexParameters().Length > 0
-                    let getSupported = p.GetMethod != null
-                    where !isIndexed && getSupported
-                    select new
-                    {
-                        Accessibility = getSupported ? GetAccessibility(p.GetMethod) : (object)"",
-                        p.Name,
-                        Value =
-                        getSupported
-                            ? InvokeMethod(() => p.GetValue(obj, null), depth, currentDepth)
-                            : "<i>Get accessor not implemented.</i>"
-                    }
-                )
-                .Union(
-                    from m in obj.GetType().GetMethods((BindingFlags)~0)
-                    let isCallableMethod = m.GetParameters().Length == 0
-                    let getterName = m.Name.StartsWith("get_")
-                        ? m.Name.Substring(4)
-                        : String.Empty
-                    let setterName = m.Name.StartsWith("set_")
-                        ? m.Name.Substring(4)
-                        : String.Empty
-
-                    where isCallableMethod && !properties.Any(p => p.Name == getterName || p.Name == setterName)
-
-                    let result = InvokeMethod(() => m.Invoke(obj, null), depth, currentDepth)
-
-                    select new
-                    {
-                        Accessibility = GetAccessibility(m),
-                        Name = m.Name + "()",
-                        Value = result
-                    }
-                )
-                .OrderBy(a => a.Name)
-                .Skip(0);
+                    .Union(
+                        from p in properties
+                        let isIndexed = p.GetIndexParameters().Length > 0
+                        let getSupported = p.GetMethod != null
+                        where !isIndexed && getSupported
+                        select new ReflectedResult
+                               {
+                                   Accessibility = getSupported
+                                       ? GetAccessibility(p.GetMethod)
+                                       : (object)"",
+                                   Name = p.Name,
+                                   Value =
+                                       getSupported
+                                           ? InvokeMethod(() => p.GetValue(obj, null), depth, currentDepth)
+                                           : "<i>Get accessor not implemented.</i>"
+                               }
+                    )
+                    .Union(
+                        from m in obj.GetType().GetMethods((BindingFlags)~0)
+                        let isCallableMethod = m.GetParameters().Length == 0
+                        let getterName = m.Name.StartsWith("get_")
+                            ? m.Name.Substring(4)
+                            : String.Empty
+                        let setterName = m.Name.StartsWith("set_")
+                            ? m.Name.Substring(4)
+                            : String.Empty
+                        where isCallableMethod && !properties.Any(p => p.Name == getterName || p.Name == setterName)
+                        let result = InvokeMethod(() => m.Invoke(obj, null), depth, currentDepth)
+                        select new ReflectedResult
+                               {
+                                   Accessibility = GetAccessibility(m),
+                                   Name = m.Name + "()",
+                                   Value = result
+                               }
+                    )
+                    .OrderBy(a => a.Name)
+                    .ToList()
+                    .Skip(0);
         }
 
         public static string DumpJson<T>(this T obj)
@@ -126,16 +126,25 @@
 
             var result =
                 from ch in json
-                let quotes = (ch == '"' || ch == '\'') ? quoteCount++ : quoteCount
-                let lineBreak = ch == ',' && quotes % 2 == 0 ? ch + Environment.NewLine + String.Concat(Enumerable.Repeat(IndentString, indentation)) : null
-                let openChar = ch == '{' || ch == '[' ? ch + Environment.NewLine + String.Concat(Enumerable.Repeat(IndentString, ++indentation)) : ch.ToString()
-                let closeChar = ch == '}' || ch == ']' ? Environment.NewLine + String.Concat(Enumerable.Repeat(IndentString, --indentation)) + ch : ch.ToString()
+                let quotes = (ch == '"' || ch == '\'')
+                    ? quoteCount++
+                    : quoteCount
+                let lineBreak = ch == ',' && quotes % 2 == 0
+                    ? ch + Environment.NewLine + String.Concat(Enumerable.Repeat(IndentString, indentation))
+                    : null
+                let openChar = ch == '{' || ch == '['
+                    ? ch + Environment.NewLine + String.Concat(Enumerable.Repeat(IndentString, ++indentation))
+                    : ch.ToString()
+                let closeChar = ch == '}' || ch == ']'
+                    ? Environment.NewLine + String.Concat(Enumerable.Repeat(IndentString, --indentation)) + ch
+                    : ch.ToString()
 
                 // When quotes are closed and there's a space, ignore it unless we are between quotes.
                 where (quotes % 2 == 0 && !Char.IsSeparator(ch)) || quotes % 2 == 1
-
                 select lineBreak ??
-                    (openChar != null && openChar.Length > 1 ? openChar : closeChar);
+                       (openChar != null && openChar.Length > 1
+                           ? openChar
+                           : closeChar);
 
             return String.Concat(result);
         }
@@ -179,17 +188,17 @@
                         ? "private"
                         : method.IsVirtual
                             ? "virtual"
-                                : method.IsAbstract
-                                    ? "abstract"
-                                    : method.IsConstructor
-                                        ? "ctor"
-                                        : method.IsAssembly
-                                            ? "internal"
-                                            : method.IsFamily
-                                                ? "protected"
-                                                : method.IsFamilyOrAssembly
-                                                    ? "protected internal"
-                                                    : "--";
+                            : method.IsAbstract
+                                ? "abstract"
+                                : method.IsConstructor
+                                    ? "ctor"
+                                    : method.IsAssembly
+                                        ? "internal"
+                                        : method.IsFamily
+                                            ? "protected"
+                                            : method.IsFamilyOrAssembly
+                                                ? "protected internal"
+                                                : "--";
             accessibility += method.IsStatic
                 ? " static"
                 : "";
