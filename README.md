@@ -29,4 +29,6 @@ Reflects over a type and gets the values required for `DumpReflect()`. Can be us
 
 ### Known issues
 
-For some types `DumpReflect().DumpJson()` will fail due to cyclic dependencies.
+- For some types `DumpReflect().DumpJson()` will fail due to cyclic dependencies.
+
+- The DumpSort() extension method is still very buggy but works great on simple collections if you need to sort a data set and export it as HTML. Reverse engineering the LINQPad Dump() method with the same polish is much harder than it looks :-)
