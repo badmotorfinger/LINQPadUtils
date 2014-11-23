@@ -110,17 +110,14 @@ namespace LINQPadUtils {
         
         /// <summary>
         ///   Looks up a localized string similar to &lt;div class=&quot;spacer&quot;&gt;
-        ///    &lt;table id=&quot;t1&quot;&gt;
-        ///        &lt;tr&gt;
-        ///            &lt;td class=&quot;typeheader&quot; colspan=&quot;{colspan}&quot;&gt;
-        ///                &lt;a href=&quot;&quot; class=&quot;typeheader&quot; onclick=&quot;return toggle(&apos;t1&apos;);&quot;&gt;
-        ///                    &lt;span class=&quot;typeglyph&quot; id=&quot;t1ud&quot;&gt;5&lt;/span&gt;{typename} ({itemcount} items)
-        ///                &lt;/a&gt;
-        ///                &lt;a href=&quot;&quot; class=&quot;extenser&quot; onclick=&quot;return window.external.CustomClick(&apos;0&apos;,false);&quot;&gt;
-        ///                    &lt;span class=&quot;extenser&quot;&gt;4&lt;/span&gt;
-        ///                &lt;/a&gt;
-        ///            &lt;/td&gt;
-        ///       [rest of string was truncated]&quot;;.
+        ///    &lt;table id=&quot;t{tablecount}&quot; class=&quot;{tablesorter_class}&quot;&gt;
+        ///        &lt;thead&gt;
+        ///            &lt;tr&gt;
+        ///                &lt;td class=&quot;typeheader&quot; colspan=&quot;{colspan}&quot;&gt;
+        ///                    &lt;a href=&quot;&quot; class=&quot;typeheader&quot; onclick=&quot;return toggle(&apos;t{tablecount}&apos;);&quot;&gt;
+        ///                        &lt;span class=&quot;typeglyph&quot; id=&quot;t{tablecount}ud&quot;&gt;5&lt;/span&gt;{typename} ({itemcount} items)
+        ///                    &lt;/a&gt;
+        ///                    &lt;!--&lt;a href=&quot;&quot; class=&quot;extenser&quot; onclick=&quot;return window.external.CustomClick(&apos;0&apos;,false [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string EnumerableResultTableHead {
             get {
@@ -139,7 +136,7 @@ namespace LINQPadUtils {
         
         /// <summary>
         ///   Looks up a localized string similar to /*! jQuery v1.11.1 | (c) 2005, 2014 jQuery Foundation, Inc. | jquery.org/license */
-        ///!function(a,b){&quot;object&quot;==typeof module&amp;&amp;&quot;object&quot;==typeof module.exports?module.exports=a.document?b(a,!0):function(a){if(!a.document)throw new Error(&quot;jQuery requires a window with a document&quot;);return b(a)}:b(a)}(&quot;undefined&quot;!=typeof window?window:this,function(a,b){var c=[],d=c.slice,e=c.concat,f=c.push,g=c.indexOf,h={},i=h.toString,j=h.hasOwnProperty,k={},l=&quot;1.11.1&quot;,m=function(a,b){return new m.fn.init(a,b)},n=/^[\s\uFEFF\xA [rest of string was truncated]&quot;;.
+        ///!function(a,b){&quot;object&quot;==typeof module&amp;&amp;&quot;object&quot;==typeof module.exports?module.exports=a.document?b(a,!0):function(a){if(!a.document)throw new Error(&quot;jQuery requires a window with a document&quot;);return b(a)}:b(a)}(&quot;undefined&quot;!=typeof window?window:this,function(a,b){var c=[],d=c.slice,e=c.concat,f=c.push,g=c.indexOf,h={},i=h.toString,j=h.hasOwnProperty,k={},l=&quot;1.11.1&quot;,m=function(a,b){return new m.fn.init(a,b)},n=/^[\s\uFEFF\x [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string jquery_1_11_1_min {
             get {
@@ -150,11 +147,71 @@ namespace LINQPadUtils {
         /// <summary>
         ///   Looks up a localized string similar to 
         ///(function($){$.extend({tablesorter:new
-        ///function(){var parsers=[],widgets=[];this.defaults={cssHeader:&quot;header&quot;,cssAsc:&quot;headerSortUp&quot;,cssDesc:&quot;headerSortDown&quot;,cssChildRow:&quot;expand-child&quot;,sortInitialOrder:&quot;asc&quot;,sortMultiSortKey:&quot;shiftKey&quot;,sortForce:null,sortAppend:null,sortLocaleCompare:true,textExtraction:&quot;simple&quot;,parsers:{},widgets:[],widgetZebra:{css:[&quot;even&quot;,&quot;odd&quot;]},headers:{},widthFixed:false,cancelSelection:true,sortList:[],headerList:[],dateFormat:&quot;us&quot;,decimal:&apos;/\.|\,/g&apos;,onRenderHeader:null,selectorHeade [rest of string was truncated]&quot;;.
+        ///function(){var parsers=[],widgets=[];this.defaults={cssHeader:&quot;header&quot;,cssAsc:&quot;headerSortUp&quot;,cssDesc:&quot;headerSortDown&quot;,cssChildRow:&quot;expand-child&quot;,sortInitialOrder:&quot;asc&quot;,sortMultiSortKey:&quot;shiftKey&quot;,sortForce:null,sortAppend:null,sortLocaleCompare:true,textExtraction:&quot;simple&quot;,parsers:{},widgets:[],widgetZebra:{css:[&quot;even&quot;,&quot;odd&quot;]},headers:{},widthFixed:false,cancelSelection:true,sortList:[],headerList:[],dateFormat:&quot;us&quot;,decimal:&apos;/\.|\,/g&apos;,onRenderHeader:null,selectorHea [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string jquery_tablesorter_min {
             get {
                 return ResourceManager.GetString("jquery_tablesorter_min", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System.Reflection;
+        ///using System.Runtime.CompilerServices;
+        ///using System.Runtime.InteropServices;
+        ///
+        ///// General Information about an assembly is controlled through the following 
+        ///// set of attributes. Change these attribute values to modify the information
+        ///// associated with an assembly.
+        ///[assembly: AssemblyTitle(&quot;&quot;)]
+        ///[assembly: AssemblyDescription(&quot;&quot;)]
+        ///[assembly: AssemblyConfiguration(&quot;&quot;)]
+        ///[assembly: AssemblyCompany(&quot;&quot;)]
+        ///[assembly: AssemblyProduct(&quot;&quot;)]
+        ///[assembly: AssemblyCopyright(&quot;Copyright © [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string linqpad_assemblyinfo_2012 {
+            get {
+                return ResourceManager.GetString("linqpad_assemblyinfo_2012", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+        ///&lt;Project DefaultTargets=&quot;Build&quot; ToolsVersion=&quot;4.0&quot; xmlns=&quot;http://schemas.microsoft.com/developer/msbuild/2003&quot;&gt;
+        ///  &lt;PropertyGroup&gt;
+        ///    &lt;Configuration Condition=&quot; &apos;$(Configuration)&apos; == &apos;&apos; &quot;&gt;Debug&lt;/Configuration&gt;
+        ///    &lt;Platform Condition=&quot; &apos;$(Platform)&apos; == &apos;&apos; &quot;&gt;x86&lt;/Platform&gt;
+        ///    &lt;ProjectGuid&gt;{289E6BC4-C22D-46A0-B9AB-F71A36DF81AD}&lt;/ProjectGuid&gt;
+        ///    &lt;OutputType&gt;Exe&lt;/OutputType&gt;
+        ///    &lt;RootNamespace&gt;{projname}&lt;/RootNamespace&gt;
+        ///    &lt;AssemblyName&gt;{projname}&lt;/AssemblyName&gt; [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string linqpad_proj_template_2012 {
+            get {
+                return ResourceManager.GetString("linqpad_proj_template_2012", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 
+        ///Microsoft Visual Studio Solution File, Format Version 12.00
+        ///# Visual Studio 2012
+        ///Project(&quot;{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}&quot;) = &quot;{slnname}&quot;, &quot;{slnname}\{slnname}.csproj&quot;, &quot;{{projguid}}&quot;
+        ///EndProject
+        ///Global
+        ///	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+        ///		Debug|x86 = Debug|x86
+        ///		Release|x86 = Release|x86
+        ///	EndGlobalSection
+        ///	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+        ///		{{projguid}}.Debug|x86.ActiveCfg = Debug|x86
+        ///		{{projguid}}.Debug|x86.Build.0 = Debug|x86
+        ///		{{p [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string linqpad_sln_template_2012 {
+            get {
+                return ResourceManager.GetString("linqpad_sln_template_2012", resourceCulture);
             }
         }
         
@@ -169,14 +226,14 @@ namespace LINQPadUtils {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;div class=&quot;spacer&quot;&gt;
-        ///    &lt;table id=&quot;t1&quot;&gt;
+        ///   Looks up a localized string similar to &lt;div class=&quot;spacer linqpad&quot;&gt;
+        ///    &lt;table id=&quot;t{tablecount}&quot;&gt;
         ///        &lt;tr&gt;
         ///            &lt;td class=&quot;typeheader&quot; colspan=&quot;{colspan}&quot;&gt;
-        ///                &lt;a href=&quot;&quot; class=&quot;typeheader&quot; onclick=&quot;return toggle(&apos;t1&apos;);&quot;&gt;
-        ///                    &lt;span class=&quot;typeglyph&quot; id=&quot;t1ud&quot;&gt;5&lt;/span&gt;{typename}
+        ///                &lt;a href=&quot;&quot; class=&quot;typeheader&quot; onclick=&quot;return toggle(&apos;t{tablecount}&apos;);&quot;&gt;
+        ///                    &lt;span class=&quot;typeglyph&quot; id=&quot;t{tablecount}ud&quot;&gt;5&lt;/span&gt;{typename}
         ///                &lt;/a&gt;
-        ///                &lt;a href=&quot;&quot; class=&quot;extenser&quot; onclick=&quot;return window.external.CustomClick(&apos;0&apos;,false);&quot;&gt;&lt;span class=&quot;extenser&quot;&gt;4&lt;/span&gt;&lt;/a&gt;
+        ///                &lt;!--&lt;a href=&quot;&quot; class=&quot;extenser&quot; onclick=&quot;return window.external.CustomClick(&apos;0&apos;,false);&quot;&gt;&lt;span class=&quot;extenser&quot;&gt;4&lt;/span&gt;&lt;/a&gt;--&gt;
         ///            &lt;/td&gt;
         ///        &lt;/tr&gt;
         ///.

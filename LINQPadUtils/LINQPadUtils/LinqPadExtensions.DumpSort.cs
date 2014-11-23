@@ -30,7 +30,10 @@
 
             Renderers.Add(() => renderer.Render(depth));
 
-            if (webBrowser == null)
+
+            var outputPanel = PanelManager.GetOutputPanel(PanelName);
+
+            if (webBrowser == null || outputPanel == null)
             {
                 webBrowser = new WebBrowser();
 
@@ -44,7 +47,7 @@
 
         static void OnQueryEnded(object sender, EventArgs eventArgs)
         {
-            PanelManager.GetOutputPanel(PanelName).QueryEnded -= OnQueryEnded;
+            PanelManager.GetOutputPanel(PanelName).QueryEnded -= LinqPadExtensions.OnQueryEnded;
 
             var document = new StringJoiner(
                     LinqPadUtilResources.DumpExtendedHead,

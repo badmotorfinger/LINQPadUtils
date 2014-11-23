@@ -8,8 +8,15 @@
         {
             if (member is FieldInfo)
                 return ((FieldInfo)member).GetValue(sourceObject);
-            
-            return ((PropertyInfo)member).GetValue(sourceObject, null);
+
+            try
+            {
+                return ((PropertyInfo)member).GetValue(sourceObject, null);
+            }
+            catch (System.Exception ex)
+            {
+                return ex; // Return the exception so it can be reflected against.
+            }
         }
     }
 }
